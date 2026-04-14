@@ -1,4 +1,4 @@
-package com.yasirakbal.order.application.domain;
+package com.yasirakbal.order.application.domain.model;
 
 import lombok.Value;
 

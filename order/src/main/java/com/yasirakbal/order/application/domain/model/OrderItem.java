@@ -1,10 +1,8 @@
-package com.yasirakbal.order.application.domain;
+package com.yasirakbal.order.application.domain.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.math.BigDecimal;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -16,15 +14,15 @@ class OrderItem {
 
     private final Integer quantity;
 
-    private final BigDecimal price;
+    private final Money price;
 
     public static OrderItem withId(OrderItemId id, String menuItemName,
-                                   Integer quantity, BigDecimal price) {
+                                   Integer quantity, Money price) {
         return new OrderItem(id, menuItemName, quantity, price);
     }
 
     public static OrderItem withoutId(String menuItemName, Integer quantity,
-                                      BigDecimal price) {
+                                      Money price) {
         return new OrderItem(null, menuItemName, quantity, price);
     }
 }
