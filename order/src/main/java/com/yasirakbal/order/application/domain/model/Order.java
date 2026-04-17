@@ -1,59 +1,71 @@
 package com.yasirakbal.order.application.domain.model;
 
+import com.yasirakbal.order.application.port.out.OrderItemSnapshot;
 import enums.TableStatus;
 import identifier.TableId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Order {
 
-    private final OrderId id;
+    private OrderId id;
 
-    private final TableId tableId;
+    private TableId tableId;
 
-    private final List<OrderItem> items;
+    private List<OrderItem> items;
 
-    private final OrderStatus status;
+    private OrderStatus status;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    public Order placeOrder(TableId tableId, TableStatus tableStatus,
-                            List<OrderItemData> itemsData) {
+    public static Order withId(OrderId id) {
+        return new Order(id, null, null, null, null);
+    }
 
-        if(!tableStatus.equals(TableStatus.AVAILABLE)) {
+    public static Order placeOrder(TableId tableId, TableStatus tableStatus,
+                              List<OrderItemData> itemsData) {
+
+        if (!tableStatus.equals(TableStatus.AVAILABLE)) {
             throw new IllegalArgumentException("Table is not available.");
         }
-
         if (itemsData == null || itemsData.isEmpty()) {
             throw new IllegalArgumentException("Order must have at least 1 item");
         }
 
-        OrderId orderId = new OrderId(UUID.randomUUID());
-
-        List<OrderItem> items = itemsData.stream()
-                .map(data -> addOrderItem(data.getMenuItemName(),
+        Order order = new Order();
+        order.id = new OrderId(UUID.randomUUID());
+        order.tableId = tableId;
+        order.status = OrderStatus.PREPARING;
+        order.createdAt = LocalDateTime.now();
+        order.items = itemsData.stream()
+                .map(data -> order.addOrderItem(
+                        data.getMenuItemId(),
                         data.getQuantity(),
-                        data.getPrice()))
+                        Money.of(data.getPrice())))
                 .toList();
 
-        return new Order(orderId, tableId, items,
-                OrderStatus.PREPARING, LocalDateTime.now());
+        return order;
     }
 
-    private OrderItem addOrderItem(String menuItemName, Integer quantity, Money price) {
-        if(isMenuItemNameDuplicated(menuItemName)) {
+    private OrderItem addOrderItem(UUID menuItemId, Integer quantity, Money price) {
+        if(isMenuItemNameDuplicated(menuItemId)) {
             throw new IllegalArgumentException("Duplicated menu item.");
         }
 
         OrderItemId orderItemId = new OrderItemId(UUID.randomUUID());
 
-        return OrderItem.withId(orderItemId, menuItemName,
+        return OrderItem.withId(orderItemId, menuItemId,
                 quantity, price);
     }
 
@@ -63,7 +75,17 @@ public class Order {
                 .reduce(Money.ZERO, Money::add);
     }
 
-    private boolean isMenuItemNameDuplicated(String menuItemName) {
-        return items.stream().anyMatch(i -> i.getMenuItemName().equals(menuItemName));
+    private boolean isMenuItemNameDuplicated(UUID menuItemId) {
+        return items.stream().anyMatch(i -> i.getMenuItemId().equals(menuItemId));
+    }
+
+    public List<OrderItemSnapshot> getItemSnapshots() {
+        return items.stream()
+                .map(item -> new OrderItemSnapshot(
+                        item.getId(),
+                        item.getMenuItemId(),
+                        item.getQuantity(),
+                        item.getPrice()))
+                .toList();
     }
 }

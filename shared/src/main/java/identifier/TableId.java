@@ -2,7 +2,9 @@ package identifier;
 
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 public class TableId {
-    Long value;
+    UUID value;
 }

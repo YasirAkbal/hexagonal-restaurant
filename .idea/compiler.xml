@@ -12,13 +12,13 @@
         <module name="shared" />
         <module name="kitchen" />
         <module name="configuration" />
+        <module name="table" />
         <module name="order" />
       </profile>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="table" />
       </profile>
     </annotationProcessing>
   </component>

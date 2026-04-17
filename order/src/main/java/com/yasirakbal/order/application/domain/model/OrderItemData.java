@@ -5,16 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class OrderItemData {
 
-    private final String menuItemName;
-    private final Integer quantity;
-    private final Money price;
+    private final UUID menuItemId;
 
-    public static OrderItemData of(String menuItemName, Integer quantity, Money price) {
-        return new OrderItemData(menuItemName, quantity, price);
+    private final Integer quantity;
+
+    private final BigDecimal price;
+
+    public static OrderItemData of(UUID menuItemId, Integer quantity, BigDecimal price) {
+        return new OrderItemData(menuItemId, quantity, price);
     }
 }
