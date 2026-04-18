@@ -1,10 +1,10 @@
 package com.yasirakbal.order.application.domain.service;
 
 import com.yasirakbal.order.application.domain.model.Order;
-import com.yasirakbal.order.application.domain.model.OrderId;
 import com.yasirakbal.order.application.port.in.CancelOrderUseCase;
 import com.yasirakbal.order.application.port.out.LoadOrderPort;
 import com.yasirakbal.order.application.port.out.SaveOrderPort;
+import com.yasirakbal.shared.identifier.OrderId;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

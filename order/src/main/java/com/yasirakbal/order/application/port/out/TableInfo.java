@@ -1,7 +1,8 @@
 package com.yasirakbal.order.application.port.out;
 
-import enums.TableStatus;
-import identifier.TableId;
+
+import com.yasirakbal.shared.enums.TableStatus;
+import com.yasirakbal.shared.identifier.TableId;
 
 public record TableInfo(
         TableId id,

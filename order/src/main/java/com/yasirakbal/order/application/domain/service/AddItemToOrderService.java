@@ -2,11 +2,11 @@ package com.yasirakbal.order.application.domain.service;
 
 import com.yasirakbal.order.application.domain.model.Money;
 import com.yasirakbal.order.application.domain.model.Order;
-import com.yasirakbal.order.application.domain.model.OrderId;
 import com.yasirakbal.order.application.domain.model.OrderItemData;
 import com.yasirakbal.order.application.port.in.AddItemToOrderCommand;
 import com.yasirakbal.order.application.port.in.AddItemToOrderUseCase;
 import com.yasirakbal.order.application.port.out.*;
+import com.yasirakbal.shared.identifier.OrderId;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;

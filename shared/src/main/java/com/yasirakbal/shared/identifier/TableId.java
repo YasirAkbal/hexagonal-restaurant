@@ -1,4 +1,4 @@
-package identifier;
+package com.yasirakbal.shared.identifier;
 
 import lombok.Value;
 

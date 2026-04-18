@@ -3,7 +3,6 @@ package com.yasirakbal.order.adapter.in.web;
 import com.yasirakbal.order.application.domain.model.Money;
 import com.yasirakbal.order.application.domain.model.OrderItemId;
 import com.yasirakbal.order.application.domain.model.OrderStatus;
-import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;

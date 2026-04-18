@@ -1,6 +1,6 @@
 package com.yasirakbal.order.application.port.in;
 
-import com.yasirakbal.order.application.domain.model.OrderId;
+import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;

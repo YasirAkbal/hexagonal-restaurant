@@ -1,11 +1,11 @@
 package com.yasirakbal.order.application.port.in;
 
-import identifier.TableId;
+import com.yasirakbal.shared.identifier.TableId;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.Value;
 
 import java.util.List;
@@ -29,7 +29,11 @@ public class PlaceOrderCommand {
     @Value
     public static class OrderItemCommandData {
 
+        @NotEmpty
         UUID menuId;
+
+        @NotNull
+        @Positive
         Integer quantity;
 
         public static OrderItemCommandData of(UUID menuId, Integer quantity) {

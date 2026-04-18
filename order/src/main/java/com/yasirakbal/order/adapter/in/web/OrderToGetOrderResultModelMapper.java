@@ -1,9 +1,9 @@
 package com.yasirakbal.order.adapter.in.web;
 
 import com.yasirakbal.order.application.domain.model.Order;
-import com.yasirakbal.order.application.domain.model.OrderId;
 import com.yasirakbal.order.application.domain.model.OrderItemSnapshot;
-import identifier.TableId;
+import com.yasirakbal.shared.identifier.OrderId;
+import com.yasirakbal.shared.identifier.TableId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

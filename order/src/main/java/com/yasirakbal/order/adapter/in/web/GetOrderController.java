@@ -1,9 +1,9 @@
 package com.yasirakbal.order.adapter.in.web;
 
 import com.yasirakbal.order.application.domain.model.Order;
-import com.yasirakbal.order.application.domain.model.OrderId;
 import com.yasirakbal.order.application.port.in.GetOrderUseCase;
 import com.yasirakbal.order.common.WebAdapter;
+import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

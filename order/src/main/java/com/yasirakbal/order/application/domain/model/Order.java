@@ -1,12 +1,13 @@
 package com.yasirakbal.order.application.domain.model;
 
-import enums.TableStatus;
-import identifier.TableId;
+
+import com.yasirakbal.shared.enums.TableStatus;
+import com.yasirakbal.shared.identifier.OrderId;
+import com.yasirakbal.shared.identifier.TableId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
 public class Order {
 
+    @Getter
     private OrderId id;
 
     private TableId tableId;
@@ -100,7 +101,7 @@ public class Order {
     }
 
     public static Order reconstruct(OrderId id, TableId tableId, List<OrderItemSnapshot> snapshots,
-                             OrderStatus status, LocalDateTime createdAt) {
+                                    OrderStatus status, LocalDateTime createdAt) {
         List<OrderItem> items = snapshots.stream()
                 .map(s -> OrderItem.withId(
                         s.id(),

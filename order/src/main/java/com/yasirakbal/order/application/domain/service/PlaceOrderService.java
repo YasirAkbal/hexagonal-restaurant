@@ -6,7 +6,7 @@ import com.yasirakbal.order.application.domain.model.OrderItemData;
 import com.yasirakbal.order.application.port.in.PlaceOrderCommand;
 import com.yasirakbal.order.application.port.in.PlaceOrderUseCase;
 import com.yasirakbal.order.application.port.out.*;
-import identifier.TableId;
+import com.yasirakbal.shared.identifier.TableId;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

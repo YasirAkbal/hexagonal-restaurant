@@ -1,4 +1,4 @@
-package com.yasirakbal.kitchen.application.domain;
+package com.yasirakbal.kitchen.application.domain.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
