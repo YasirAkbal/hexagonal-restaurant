@@ -1,16 +1,14 @@
 package com.yasirakbal.order.application.domain.model;
 
-import com.yasirakbal.order.application.port.out.OrderItemSnapshot;
 import enums.TableStatus;
 import identifier.TableId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,10 +27,6 @@ public class Order {
 
     private LocalDateTime createdAt;
 
-    public static Order withId(OrderId id) {
-        return new Order(id, null, null, null, null);
-    }
-
     public static Order placeOrder(TableId tableId, TableStatus tableStatus,
                               List<OrderItemData> itemsData) {
 
@@ -49,16 +43,32 @@ public class Order {
         order.status = OrderStatus.PREPARING;
         order.createdAt = LocalDateTime.now();
         order.items = itemsData.stream()
-                .map(data -> order.addOrderItem(
+                .map(data -> order.createOrderItem(
                         data.getMenuItemId(),
                         data.getQuantity(),
-                        Money.of(data.getPrice())))
+                        data.getPrice()))
                 .toList();
 
         return order;
     }
 
-    private OrderItem addOrderItem(UUID menuItemId, Integer quantity, Money price) {
+    public void cancelOrder() {
+        status = OrderStatus.CANCELLED;
+    }
+
+    public void updateOrderStatus(OrderStatus newOrderStatus) {
+        status = newOrderStatus;
+    }
+
+    public void addItem(OrderItemData orderItemData) {
+        items.add(createOrderItem(
+                orderItemData.getMenuItemId(),
+                orderItemData.getQuantity(),
+                orderItemData.getPrice())
+        );
+    }
+
+    private OrderItem createOrderItem(UUID menuItemId, Integer quantity, Money price) {
         if(isMenuItemNameDuplicated(menuItemId)) {
             throw new IllegalArgumentException("Duplicated menu item.");
         }
@@ -87,5 +97,24 @@ public class Order {
                         item.getQuantity(),
                         item.getPrice()))
                 .toList();
+    }
+
+    public static Order reconstruct(OrderId id, TableId tableId, List<OrderItemSnapshot> snapshots,
+                             OrderStatus status, LocalDateTime createdAt) {
+        List<OrderItem> items = snapshots.stream()
+                .map(s -> OrderItem.withId(
+                        s.id(),
+                        s.menuItemId(),
+                        s.quantity(),
+                        s.price()))
+                .toList();
+
+        return new Order(
+                id,
+                tableId,
+                items,
+                status,
+                createdAt
+        );
     }
 }

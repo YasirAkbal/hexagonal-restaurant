@@ -19,24 +19,24 @@ import java.util.List;
 @WebAdapter
 @RequiredArgsConstructor
 class PlaceOrderController {
+
     private final PlaceOrderUseCase placeOrderUseCase;
 
-    @PostMapping("api/orders/place")
+    @PostMapping("api/orders")
     public ResponseEntity<Void> placeOrder(@RequestBody @Valid PlaceOrderRequestModel request) {
         TableId tableId = new TableId(request.getTableId());
         List<PlaceOrderCommand.OrderItemCommandData> orderItemDataList = request.getOrderItems().stream()
-                .map(o ->
-                        PlaceOrderCommand.OrderItemCommandData.of(
-                                o.getMenuItemId(),
-                                o.getQuantity()
+                .map(o -> PlaceOrderCommand.OrderItemCommandData.of(
+                            o.getMenuItemId(),
+                            o.getQuantity()
                         )
                 )
                 .toList();
 
 
-        PlaceOrderCommand placeOrderCommand = new PlaceOrderCommand(tableId, orderItemDataList);
+        PlaceOrderCommand placeOrderCommand = PlaceOrderCommand.of(tableId, orderItemDataList);
         placeOrderUseCase.placeOrder(placeOrderCommand);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.noContent().build();
     }
 }

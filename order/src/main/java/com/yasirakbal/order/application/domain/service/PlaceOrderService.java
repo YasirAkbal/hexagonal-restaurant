@@ -1,5 +1,6 @@
 package com.yasirakbal.order.application.domain.service;
 
+import com.yasirakbal.order.application.domain.model.Money;
 import com.yasirakbal.order.application.domain.model.Order;
 import com.yasirakbal.order.application.domain.model.OrderItemData;
 import com.yasirakbal.order.application.port.in.PlaceOrderCommand;
@@ -13,24 +14,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlaceOrderService implements PlaceOrderUseCase {
 
-    private final CreateOrderPort createOrderPort;
-    private final RetrieveTablePort retrieveTablePort;
-    private final RetrieveMenuPort retrieveMenuPort;
+    private final SaveOrderPort saveOrderPort;
+    private final LoadTableStatusPort loadTableStatusPort;
+    private final LoadMenuInfoPort loadMenuInfoPort;
 
     @Override
     public Order placeOrder(PlaceOrderCommand command) {
         TableId tableId = command.getTableId();
-        TableInfo tableInfo = retrieveTablePort.getTableInfo(tableId);
+        TableInfo tableInfo = loadTableStatusPort.getTableInfo(tableId);
         List<OrderItemData> orderItems = command.getOrderItems().stream()
                 .map(o -> {
-                    MenuInfo menuInfo = retrieveMenuPort.getMenuInfo(o.getMenuId());
-                    return OrderItemData.of(menuInfo.menuId(), o.getQuantity(), menuInfo.price());
+                    MenuInfo menuInfo = loadMenuInfoPort.getMenuInfo(o.getMenuId());
+                    return OrderItemData.of(menuInfo.menuId(), o.getQuantity(), Money.of(menuInfo.price()));
                 })
                 .toList();
 
         Order order = Order.placeOrder(tableId, tableInfo.status(), orderItems);
 
-        createOrderPort.createOrder(order);
+        saveOrderPort.saveOrder(order);
 
         return order;
     }

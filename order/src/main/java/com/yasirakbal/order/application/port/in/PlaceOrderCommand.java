@@ -13,6 +13,7 @@ import java.util.UUID;
 
 //Business validations not requiring access to domain entity data should be implemented here.
 @Value
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlaceOrderCommand {
     @NotNull
     TableId tableId;
@@ -20,12 +21,16 @@ public class PlaceOrderCommand {
     @NotEmpty(message = "Order must have at least one order item.")
     List<OrderItemCommandData> orderItems;
 
+    public static PlaceOrderCommand of(TableId tableId, List<OrderItemCommandData> orderItems) {
+        return new PlaceOrderCommand(tableId, orderItems);
+    }
+
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @Getter
+    @Value
     public static class OrderItemCommandData {
 
-        private final UUID menuId;
-        private final Integer quantity;
+        UUID menuId;
+        Integer quantity;
 
         public static OrderItemCommandData of(UUID menuId, Integer quantity) {
             return new OrderItemCommandData(menuId, quantity);

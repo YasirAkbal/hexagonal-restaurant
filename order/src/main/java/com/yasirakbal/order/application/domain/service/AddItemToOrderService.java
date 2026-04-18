@@ -1,0 +1,37 @@
+package com.yasirakbal.order.application.domain.service;
+
+import com.yasirakbal.order.application.domain.model.Money;
+import com.yasirakbal.order.application.domain.model.Order;
+import com.yasirakbal.order.application.domain.model.OrderId;
+import com.yasirakbal.order.application.domain.model.OrderItemData;
+import com.yasirakbal.order.application.port.in.AddItemToOrderCommand;
+import com.yasirakbal.order.application.port.in.AddItemToOrderUseCase;
+import com.yasirakbal.order.application.port.out.*;
+import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
+
+@RequiredArgsConstructor
+public class AddItemToOrderService implements AddItemToOrderUseCase {
+
+    private final LoadMenuInfoPort loadMenuInfoPort;
+    private final SaveOrderPort saveOrderPort;
+    private final LoadOrderPort loadOrderPort;
+
+
+    @Override
+    public void addItem(AddItemToOrderCommand command) {
+        OrderId orderId = command.getOrderId();
+        Order order = loadOrderPort.getById(orderId);
+
+        UUID menuId = command.getMenuId();
+        MenuInfo menuInfo = loadMenuInfoPort.getMenuInfo(menuId);
+        order.addItem(OrderItemData.of(
+                menuInfo.menuId(),
+                command.getQuantity(),
+                Money.of(menuInfo.price())
+        ));
+
+        saveOrderPort.saveOrder(order);
+    }
+}

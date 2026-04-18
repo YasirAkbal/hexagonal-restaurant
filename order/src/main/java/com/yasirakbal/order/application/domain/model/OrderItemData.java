@@ -15,9 +15,9 @@ public class OrderItemData {
 
     private final Integer quantity;
 
-    private final BigDecimal price;
+    private final Money price;
 
-    public static OrderItemData of(UUID menuItemId, Integer quantity, BigDecimal price) {
+    public static OrderItemData of(UUID menuItemId, Integer quantity, Money price) {
         return new OrderItemData(menuItemId, quantity, price);
     }
 }

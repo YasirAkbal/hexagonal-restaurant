@@ -1,8 +1,7 @@
 package com.yasirakbal.order.application.port.out;
 
-import enums.TableStatus;
 import identifier.TableId;
 
-public interface RetrieveTablePort {
+public interface LoadTableStatusPort {
     TableInfo getTableInfo(TableId tableId);
 }

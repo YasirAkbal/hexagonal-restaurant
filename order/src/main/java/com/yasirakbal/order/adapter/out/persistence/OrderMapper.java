@@ -1,7 +1,7 @@
 package com.yasirakbal.order.adapter.out.persistence;
 
-import com.yasirakbal.order.application.domain.model.Order;
-import com.yasirakbal.order.application.port.out.OrderItemSnapshot;
+import com.yasirakbal.order.application.domain.model.*;
+import identifier.TableId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -33,5 +33,29 @@ public interface OrderMapper {
                 .map(this::mapToOrderItemJpaEntity)
                 .toList();
     }
-}
 
+    default Order mapToOrder(OrderJpaEntity jpaEntity) {
+        List<OrderItemSnapshot> snapshots = jpaEntity.getItems().stream()
+                .map(this::mapToOrderItemSnapshot)
+                .toList();
+
+        Order order = Order.reconstruct(
+                new OrderId(jpaEntity.getId()),
+                new TableId(jpaEntity.getTableId()),
+                snapshots,
+                jpaEntity.getStatus(),
+                jpaEntity.getCreatedAt()
+        );
+
+        return order;
+    }
+
+    default OrderItemSnapshot mapToOrderItemSnapshot(OrderItemJpaEntity itemEntity) {
+        return new OrderItemSnapshot(
+                new OrderItemId(itemEntity.getId()),
+                itemEntity.getMenuItemId(),
+                itemEntity.getQuantity(),
+                Money.of(itemEntity.getPrice())
+        );
+    }
+}

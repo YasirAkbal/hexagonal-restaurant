@@ -22,7 +22,7 @@ public class OrderItemJpaEntity {
     private UUID id;
 
     @Column(nullable = false, unique = true)
-    private String menuItemName;
+    private UUID menuItemId;
 
     @Column(nullable = false)
     private Integer quantity;
