@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreateKitchenOrderService implements CreateKitchenOrderUseCase {
 
-    private SaveKitchenOrderPort saveKitchenOrderPort;
+    private final SaveKitchenOrderPort saveKitchenOrderPort;
 
     @Override
     public void create(CreateKitchenOrderCommand command) {

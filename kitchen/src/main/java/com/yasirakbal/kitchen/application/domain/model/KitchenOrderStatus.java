@@ -6,7 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum KitchenOrderStatus {
-    RECEIVED("RECEIVED"), PREPARING("PREPARING"), READ("READY");
+    RECEIVED("RECEIVED"), PREPARING("PREPARING"),
+    READY("READY"), CANCELLED("CANCELLED");
 
     private final String value;
 }

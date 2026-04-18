@@ -5,54 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fad0d8f5-e9de-49d1-8179-548dd3c34def" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderItemJpaEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderJpaEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderPersistenceAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderId.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderItemData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderItemId.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderItemSnapshot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/service/CreateKitchenOrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/in/CreateKitchenOrderCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/in/CreateKitchenOrderUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/out/SaveKitchenOrderPort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/service/CancelKitchenOrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/service/MarkOrderReadyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/service/StartPreparingService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/in/CancelKitchenOrderUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/in/GetKitchenOrderUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/in/MarkOrderReadyUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/in/StartPreparingUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/port/out/LoadKitchenOrderPort.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kitchen/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/MenuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/MenuItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/MenuItemId.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/MenuItemId.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/AddItemToOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/AddItemToOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/AddItemToOrderRequestModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/AddItemToOrderRequestModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderItemJpaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderItemJpaEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderPersistenceAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/adapter/out/persistance/KitchenOrderPersistenceAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/model/KitchenOrderStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/service/CreateKitchenOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kitchen/src/main/java/com/yasirakbal/kitchen/application/domain/service/CreateKitchenOrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/CancelOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/CancelOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/GetOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/GetOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/GetOrderResultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/GetOrderResultModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/OrderToGetOrderResultModelMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/OrderToGetOrderResultModelMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/PlaceOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/PlaceOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/PlaceOrderRequestModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/in/web/PlaceOrderRequestModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/out/persistence/OrderItemJpaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/out/persistence/OrderItemJpaEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/out/persistence/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/out/persistence/OrderMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/out/persistence/OrderPersistenceAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/adapter/out/persistence/OrderPersistenceAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/model/OrderId.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/com/yasirakbal/shared/identifier/OrderId.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/model/OrderItemData.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/model/OrderItemData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/service/AddItemToOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/service/AddItemToOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/service/CancelOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/service/CancelOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/service/PlaceOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/domain/service/PlaceOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/AddItemToOrderCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/AddItemToOrderCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/CancelOrderUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/CancelOrderUseCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/GetOrderUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/GetOrderUseCase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/PlaceOrderCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/PlaceOrderCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/UpdateOrderStatusCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/in/UpdateOrderStatusCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/out/LoadOrderPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/out/LoadOrderPort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/out/LoadTableStatusPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/out/LoadTableStatusPort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/out/TableInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/order/src/main/java/com/yasirakbal/order/application/port/out/TableInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/enums/TableStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/com/yasirakbal/shared/enums/TableStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/identifier/TableId.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/com/yasirakbal/shared/identifier/TableId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,8 +50,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>

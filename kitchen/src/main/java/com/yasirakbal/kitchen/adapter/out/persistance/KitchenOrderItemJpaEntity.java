@@ -24,9 +24,6 @@ public class KitchenOrderItemJpaEntity {
     private UUID id;
 
     @Column(nullable = false)
-    private UUID kitchenOrderId;
-
-    @Column(nullable = false)
     private UUID menuItemId;
 
     @Column(nullable = false)

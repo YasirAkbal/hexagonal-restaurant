@@ -29,7 +29,7 @@ public class PlaceOrderCommand {
     @Value
     public static class OrderItemCommandData {
 
-        @NotEmpty
+        @NotNull
         UUID menuId;
 
         @NotNull

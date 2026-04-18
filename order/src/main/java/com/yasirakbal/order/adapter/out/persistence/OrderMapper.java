@@ -21,11 +21,10 @@ public interface OrderMapper {
     OrderJpaEntity mapToOrderJpaEntity(Order order);
 
     @Mapping(target = "id", source = "snapshot.id.value")
-    @Mapping(target = "orderId", source = "orderId")
     @Mapping(target = "menuItemId", source = "snapshot.menuItemId")
     @Mapping(target = "quantity", source = "snapshot.quantity")
     @Mapping(target = "price", source = "snapshot.price.amount")
-    OrderItemJpaEntity mapToOrderItemJpaEntity(OrderItemSnapshot snapshot, UUID orderId);
+    OrderItemJpaEntity mapToOrderItemJpaEntity(OrderItemSnapshot snapshot);
 
     @Named("calculateTotalAmount")
     default BigDecimal calculateTotalAmount(Order order) {
@@ -36,7 +35,7 @@ public interface OrderMapper {
     default List<OrderItemJpaEntity> mapItemSnapshots(Order order) {
         UUID orderId = order.getId().getValue();
         return order.getItemSnapshots().stream()
-                .map(snapshot -> mapToOrderItemJpaEntity(snapshot, orderId))
+                .map(this::mapToOrderItemJpaEntity)
                 .toList();
     }
 

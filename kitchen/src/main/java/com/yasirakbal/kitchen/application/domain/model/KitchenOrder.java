@@ -54,6 +54,30 @@ public class KitchenOrder {
         );
     }
 
+    public void cancel() {
+        if(status.equals(KitchenOrderStatus.READY)) {
+            throw new IllegalArgumentException("Prepared orders cannot be cancelled.");
+        }
+
+        status = KitchenOrderStatus.CANCELLED;
+    }
+
+    public void startPreparing() {
+        if(!status.equals(KitchenOrderStatus.RECEIVED)) {
+            throw new IllegalArgumentException("Only kitchen orders with received status can be prepared.");
+        }
+
+        status = KitchenOrderStatus.PREPARING;
+    }
+
+    public void markReady() {
+        if(!status.equals(KitchenOrderStatus.PREPARING)) {
+            throw new IllegalArgumentException("Only kitchen orders with preparing status can be marked as ready.");
+        }
+
+        status = KitchenOrderStatus.READY;
+    }
+
     public List<KitchenOrderItemSnapshot> getItemSnapshots() {
         return orderItems.stream()
                 .map(item -> new KitchenOrderItemSnapshot(
@@ -62,5 +86,26 @@ public class KitchenOrder {
                         item.getMenuItemId(),
                         item.getQuantity()))
                 .toList();
+    }
+
+    public static KitchenOrder reconstruct(KitchenOrderId id, OrderId orderId, List<KitchenOrderItemSnapshot> itemsSnapshot,
+                                           KitchenOrderStatus status, LocalDateTime receivedAt) {
+
+        List<KitchenOrderItem> items = itemsSnapshot.stream()
+                .map(k -> KitchenOrderItem.of(
+                        k.id(),
+                        k.kitchenOrderId(),
+                        k.menuItemId(),
+                        k.quantity()
+                ))
+                .toList();
+
+        return new KitchenOrder(
+                id,
+                orderId,
+                items,
+                status,
+                receivedAt
+        );
     }
 }
