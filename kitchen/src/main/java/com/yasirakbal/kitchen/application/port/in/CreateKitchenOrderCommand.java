@@ -1,6 +1,6 @@
 package com.yasirakbal.kitchen.application.port.in;
 
-import com.yasirakbal.kitchen.application.domain.model.MenuItemId;
+import com.yasirakbal.shared.identifier.MenuItemId;
 import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

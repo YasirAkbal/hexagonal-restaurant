@@ -1,4 +1,4 @@
-package com.yasirakbal.order.common;
+package com.yasirakbal.order.common.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

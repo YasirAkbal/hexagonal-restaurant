@@ -3,6 +3,8 @@ package com.yasirakbal.order.application.domain.model;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import com.yasirakbal.shared.identifier.MenuItemId;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -10,20 +12,21 @@ import java.util.UUID;
 @Getter
 class OrderItem {
 
-    private final OrderItemId id;
+    private OrderItemId id;
 
-    private final UUID menuItemId;
+    private MenuItemId menuItemId;
 
-    private final Integer quantity;
+    @Setter
+    private Integer quantity;
 
-    private final Money price;
+    private Money price;
 
-    public static OrderItem withId(OrderItemId id, UUID menuItemId,
+    public static OrderItem withId(OrderItemId id, MenuItemId menuItemId,
                                    Integer quantity, Money price) {
         return new OrderItem(id, menuItemId, quantity, price);
     }
 
-    public static OrderItem withoutId(UUID menuItemId, Integer quantity,
+    public static OrderItem withoutId(MenuItemId menuItemId, Integer quantity,
                                       Money price) {
         return new OrderItem(null, menuItemId, quantity, price);
     }

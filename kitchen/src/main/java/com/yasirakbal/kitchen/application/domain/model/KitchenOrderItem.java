@@ -3,6 +3,7 @@ package com.yasirakbal.kitchen.application.domain.model;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import com.yasirakbal.shared.identifier.MenuItemId;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter

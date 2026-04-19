@@ -1,6 +1,6 @@
 package com.yasirakbal.kitchen.application.domain.model;
 
-import java.util.UUID;
+import com.yasirakbal.shared.identifier.MenuItemId;
 
 public record KitchenOrderItemSnapshot(
         KitchenOrderItemId id,

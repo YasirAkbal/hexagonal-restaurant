@@ -1,8 +1,8 @@
 package com.yasirakbal.table.adapter.out.persistence;
 
+import com.yasirakbal.shared.enums.TableStatus;
+import com.yasirakbal.shared.identifier.TableId;
 import com.yasirakbal.table.application.domain.model.Table;
-import com.yasirakbal.table.application.domain.model.TableId;
-import com.yasirakbal.table.application.domain.model.TableStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface TableMapper {
 
     @Mapping(target = "id", source = "id.value")
-    @Mapping(target = "status", source = "status.value")
+    @Mapping(target = "status", source = "status")
     TableJpaEntity mapToJpaEntity(Table table);
 
     default Table mapToDomain(TableJpaEntity jpaEntity) {
@@ -20,8 +20,7 @@ public interface TableMapper {
                 mapToTableId(jpaEntity.getId()),
                 jpaEntity.getTableNumber(),
                 jpaEntity.getCapacity(),
-                mapToTableStatus(jpaEntity.getStatus()),
-                jpaEntity.getPendingOrderCount()
+                mapToTableStatus(jpaEntity.getStatus())
         );
     }
 

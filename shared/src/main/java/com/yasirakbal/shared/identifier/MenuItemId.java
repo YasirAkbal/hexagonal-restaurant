@@ -1,4 +1,4 @@
-package com.yasirakbal.kitchen.application.domain.model;
+package com.yasirakbal.shared.identifier;
 
 import lombok.Value;
 

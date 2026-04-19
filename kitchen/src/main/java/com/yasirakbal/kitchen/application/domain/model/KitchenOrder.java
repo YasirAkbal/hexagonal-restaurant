@@ -16,6 +16,7 @@ public class KitchenOrder {
     @Getter
     private KitchenOrderId id;
 
+    @Getter
     private OrderId orderId;
 
     private List<KitchenOrderItem> orderItems;

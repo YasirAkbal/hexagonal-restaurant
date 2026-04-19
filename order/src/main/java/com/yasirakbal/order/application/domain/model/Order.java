@@ -8,9 +8,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import com.yasirakbal.shared.identifier.MenuItemId;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,6 +22,7 @@ public class Order {
     @Getter
     private OrderId id;
 
+    @Getter
     private TableId tableId;
 
     private List<OrderItem> items;
@@ -54,6 +57,10 @@ public class Order {
     }
 
     public void cancelOrder() {
+        if(!status.equals(OrderStatus.PENDING)) {
+            throw new IllegalArgumentException("Only PENDING orders can be cancelled");
+        }
+
         status = OrderStatus.CANCELLED;
     }
 
@@ -62,18 +69,25 @@ public class Order {
     }
 
     public void addItem(OrderItemData orderItemData) {
-        items.add(createOrderItem(
-                orderItemData.getMenuItemId(),
-                orderItemData.getQuantity(),
-                orderItemData.getPrice())
-        );
-    }
-
-    private OrderItem createOrderItem(UUID menuItemId, Integer quantity, Money price) {
-        if(isMenuItemNameDuplicated(menuItemId)) {
-            throw new IllegalArgumentException("Duplicated menu item.");
+        if(status == OrderStatus.DELIVERED || status == OrderStatus.CANCELLED) {
+            throw new IllegalArgumentException("New order items cannot be added into delivered or cancelled orders.");
         }
 
+        Optional<OrderItem> currOrderItem = getOrderItemFromCurrentList(orderItemData.getMenuItemId());
+
+        if(currOrderItem.isPresent())  {
+            OrderItem currOrderItemUnwrapped = currOrderItem.get();
+            currOrderItemUnwrapped.setQuantity(currOrderItemUnwrapped.getQuantity() + orderItemData.getQuantity());
+        } else {
+            items.add(createOrderItem(
+                    orderItemData.getMenuItemId(),
+                    orderItemData.getQuantity(),
+                    orderItemData.getPrice())
+            );
+        }
+    }
+
+    private OrderItem createOrderItem(MenuItemId menuItemId, Integer quantity, Money price) {
         OrderItemId orderItemId = new OrderItemId(UUID.randomUUID());
 
         return OrderItem.withId(orderItemId, menuItemId,
@@ -86,8 +100,8 @@ public class Order {
                 .reduce(Money.ZERO, Money::add);
     }
 
-    private boolean isMenuItemNameDuplicated(UUID menuItemId) {
-        return items.stream().anyMatch(i -> i.getMenuItemId().equals(menuItemId));
+    private Optional<OrderItem> getOrderItemFromCurrentList(MenuItemId menuItemId) {
+        return items.stream().filter(i -> i.getMenuItemId().equals(menuItemId)).findFirst();
     }
 
     public List<OrderItemSnapshot> getItemSnapshots() {

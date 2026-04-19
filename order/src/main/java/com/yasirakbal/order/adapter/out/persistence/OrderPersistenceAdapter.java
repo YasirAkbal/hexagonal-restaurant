@@ -4,7 +4,7 @@ import com.yasirakbal.order.application.domain.model.Order;
 import com.yasirakbal.order.application.port.in.GetOrderUseCase;
 import com.yasirakbal.order.application.port.out.SaveOrderPort;
 import com.yasirakbal.order.application.port.out.LoadOrderPort;
-import com.yasirakbal.order.common.PersistenceAdapter;
+import com.yasirakbal.order.common.annotation.PersistenceAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
 import lombok.AllArgsConstructor;
 

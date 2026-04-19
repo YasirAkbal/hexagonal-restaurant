@@ -1,7 +1,7 @@
 package com.yasirakbal.table.adapter.in.web;
 
-import com.yasirakbal.table.application.domain.model.TableId;
-import com.yasirakbal.table.application.port.in.CloseTableUseCase;
+import com.yasirakbal.shared.identifier.TableId;
+import com.yasirakbal.table.application.port.in.UnOccupyTableUseCase;
 import com.yasirakbal.table.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CloseTableController {
 
-    private final CloseTableUseCase closeTableUseCase;
+    private final UnOccupyTableUseCase unOccupyTableUseCase;
 
     @PostMapping("api/tables/{id}/close")
     public ResponseEntity<Void> closeTable(@PathVariable UUID id) {
         TableId tableId = new TableId(id);
-        closeTableUseCase.closeTable(tableId);
+        unOccupyTableUseCase.unOccupyTable(tableId);
         return ResponseEntity.noContent().build();
     }
 }

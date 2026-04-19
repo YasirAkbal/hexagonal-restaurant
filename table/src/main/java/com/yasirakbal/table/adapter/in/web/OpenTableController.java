@@ -1,8 +1,7 @@
 package com.yasirakbal.table.adapter.in.web;
 
-import com.yasirakbal.table.application.domain.model.Table;
-import com.yasirakbal.table.application.domain.model.TableId;
-import com.yasirakbal.table.application.port.in.OpenTableUseCase;
+import com.yasirakbal.shared.identifier.TableId;
+import com.yasirakbal.table.application.port.in.OccupyTableUseCase;
 import com.yasirakbal.table.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +16,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OpenTableController {
 
-    private final OpenTableUseCase openTableUseCase;
+    private final OccupyTableUseCase occupyTableUseCase;
 
     @PostMapping("api/tables/{id}/open")
     public ResponseEntity<Void> openTable(@PathVariable UUID id) {
         TableId tableId = new TableId(id);
-        openTableUseCase.openTable(tableId);
+        occupyTableUseCase.occupyTable(tableId);
         return ResponseEntity.noContent().build();
     }
 }

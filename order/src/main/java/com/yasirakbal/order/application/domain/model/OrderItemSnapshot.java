@@ -1,10 +1,10 @@
 package com.yasirakbal.order.application.domain.model;
 
-import java.util.UUID;
+import com.yasirakbal.shared.identifier.MenuItemId;
 
 public record OrderItemSnapshot(
         OrderItemId id,
-        UUID menuItemId,
+        MenuItemId menuItemId,
         Integer quantity,
         Money price
 ) {}

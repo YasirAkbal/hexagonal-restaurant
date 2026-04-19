@@ -2,7 +2,7 @@ package com.yasirakbal.order.adapter.in.web;
 
 import com.yasirakbal.order.application.domain.model.Order;
 import com.yasirakbal.order.application.port.in.GetOrderUseCase;
-import com.yasirakbal.order.common.WebAdapter;
+import com.yasirakbal.order.common.annotation.WebAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,8 +21,8 @@ import java.util.UUID;
 @Validated
 public class GetOrderController {
 
-    private GetOrderUseCase getOrderUseCase;
-    private OrderToGetOrderResultModelMapper orderToGetOrderResultModelMapper;
+    private final GetOrderUseCase getOrderUseCase;
+    private final OrderToGetOrderResultModelMapper orderToGetOrderResultModelMapper;
 
     @GetMapping("api/orders/{id}")
     public ResponseEntity<GetOrderResultModel> getOrder(@PathVariable @NotNull @Positive UUID orderId) {

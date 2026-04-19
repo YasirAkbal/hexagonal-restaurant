@@ -3,6 +3,7 @@ package com.yasirakbal.kitchen.application.domain.model;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import com.yasirakbal.shared.identifier.MenuItemId;
 
 import java.math.BigDecimal;
 
@@ -19,7 +20,7 @@ public class MenuItem {
     private final String description;
 
     public static MenuItem withId(MenuItemId id, String name,
-                         BigDecimal price, String description) {
+                                  BigDecimal price, String description) {
         return new MenuItem(id, name, price, description);
     }
 

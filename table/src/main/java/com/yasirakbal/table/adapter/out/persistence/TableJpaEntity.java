@@ -28,8 +28,5 @@ public class TableJpaEntity {
 
     @Column(nullable = false)
     private String status;
-
-    @Column(nullable = false)
-    private Integer pendingOrderCount;
 }
 

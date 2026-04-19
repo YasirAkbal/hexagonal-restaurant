@@ -44,5 +44,6 @@ public interface OrderToGetOrderResultModelMapper {
                 .toList();
     }
 
+    @Mapping(target = "menuItemId", source = "menuItemId.value")
     GetOrderResultModel.GetOrderResultView mapToGetOrderResultView(OrderItemSnapshot snapshot);
 }

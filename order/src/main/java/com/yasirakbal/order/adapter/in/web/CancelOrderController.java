@@ -1,7 +1,7 @@
 package com.yasirakbal.order.adapter.in.web;
 
 import com.yasirakbal.order.application.domain.service.CancelOrderService;
-import com.yasirakbal.order.common.WebAdapter;
+import com.yasirakbal.order.common.annotation.WebAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

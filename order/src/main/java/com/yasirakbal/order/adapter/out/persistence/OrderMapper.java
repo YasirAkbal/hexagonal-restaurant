@@ -1,6 +1,7 @@
 package com.yasirakbal.order.adapter.out.persistence;
 
 import com.yasirakbal.order.application.domain.model.*;
+import com.yasirakbal.shared.identifier.MenuItemId;
 import com.yasirakbal.shared.identifier.OrderId;
 import com.yasirakbal.shared.identifier.TableId;
 import org.mapstruct.Mapper;
@@ -20,10 +21,10 @@ public interface OrderMapper {
     @Mapping(target = "items", source = "order", qualifiedByName = "mapItemSnapshots")
     OrderJpaEntity mapToOrderJpaEntity(Order order);
 
-    @Mapping(target = "id", source = "snapshot.id.value")
-    @Mapping(target = "menuItemId", source = "snapshot.menuItemId")
-    @Mapping(target = "quantity", source = "snapshot.quantity")
-    @Mapping(target = "price", source = "snapshot.price.amount")
+    @Mapping(target = "id", source = "id.value")
+    @Mapping(target = "menuItemId", source = "menuItemId.value")
+    @Mapping(target = "quantity", source = "quantity")
+    @Mapping(target = "price", source = "price.amount")
     OrderItemJpaEntity mapToOrderItemJpaEntity(OrderItemSnapshot snapshot);
 
     @Named("calculateTotalAmount")
@@ -58,7 +59,7 @@ public interface OrderMapper {
     default OrderItemSnapshot mapToOrderItemSnapshot(OrderItemJpaEntity itemEntity) {
         return new OrderItemSnapshot(
                 new OrderItemId(itemEntity.getId()),
-                itemEntity.getMenuItemId(),
+                new MenuItemId(itemEntity.getMenuItemId()),
                 itemEntity.getQuantity(),
                 Money.of(itemEntity.getPrice())
         );

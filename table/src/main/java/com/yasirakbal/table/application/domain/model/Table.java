@@ -1,5 +1,7 @@
 package com.yasirakbal.table.application.domain.model;
 
+import com.yasirakbal.shared.enums.TableStatus;
+import com.yasirakbal.shared.identifier.TableId;
 import lombok.AllArgsConstructor;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,8 +22,6 @@ public class Table {
 
     private TableStatus status;
 
-    private Integer pendingOrderCount;
-
     public static Table create(Integer tableNumber, Integer capacity) {
         if (tableNumber == null || tableNumber <= 0) {
             throw new IllegalArgumentException("Table number must be greater than 0");
@@ -34,57 +34,31 @@ public class Table {
         table.id = new TableId(UUID.randomUUID());
         table.tableNumber = tableNumber;
         table.capacity = capacity;
-        table.status = TableStatus.OPEN;
-        table.pendingOrderCount = 0;
+        table.status = TableStatus.AVAILABLE;
 
         return table;
     }
 
     public void markAsOccupied() {
-        if (!this.status.equals(TableStatus.OPEN)) {
-            throw new IllegalArgumentException("Only OPEN tables can be marked as OCCUPIED");
-        }
-
-        this.status = TableStatus.OCCUPIED;
-        this.pendingOrderCount = 1;
-    }
-
-    public void orderStarted() {
-        if (this.status.equals(TableStatus.OCCUPIED)) {
+        if (status.equals(TableStatus.OCCUPIED)) {
             throw new IllegalArgumentException("Table is already occupied with an order");
         }
 
-        if (!this.status.equals(TableStatus.OPEN)) {
+        if (!status.equals(TableStatus.AVAILABLE)) {
             throw new IllegalArgumentException("Only OPEN tables can receive orders");
         }
 
-        this.status = TableStatus.OCCUPIED;
-        this.pendingOrderCount = 1;
+        status = TableStatus.OCCUPIED;
     }
 
-    public void close() {
-        if (this.pendingOrderCount > 0) {
-            throw new IllegalArgumentException("Cannot close table with pending orders");
-        }
-
-        this.status = TableStatus.CLOSED;
-    }
-
-    public void open() {
-        this.status = TableStatus.OPEN;
-        this.pendingOrderCount = 0;
-    }
-
-    public void markOrderAsDelivered() {
-        if (this.pendingOrderCount > 0) {
-            this.pendingOrderCount--;
-        }
+    public void markAsAvailable() {
+        status = TableStatus.AVAILABLE;
     }
 
     public static Table reconstruct(TableId id, Integer tableNumber, Integer capacity,
-                                    TableStatus status, Integer pendingOrderCount) {
+                                    TableStatus status) {
 
-        return new Table(id, tableNumber, capacity, status, pendingOrderCount);
+        return new Table(id, tableNumber, capacity, status);
     }
 }
 

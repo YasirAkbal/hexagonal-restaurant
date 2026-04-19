@@ -1,7 +1,7 @@
 package com.yasirakbal.table.adapter.in.web;
 
+import com.yasirakbal.shared.identifier.TableId;
 import com.yasirakbal.table.application.domain.model.Table;
-import com.yasirakbal.table.application.domain.model.TableId;
 import com.yasirakbal.table.application.port.in.GetTableUseCase;
 import com.yasirakbal.table.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,10 @@ public class GetTableController {
     @GetMapping("api/tables/{id}")
     public ResponseEntity<GetTableResultModel> getTable(@PathVariable UUID id) {
         TableId tableId = new TableId(id);
-        Table table = getTableUseCase.getTable(tableId);
+        Table table = getTableUseCase.getById(tableId);
+
         GetTableResultModel result = tableMapper.map(table);
+
         return ResponseEntity.ok(result);
     }
 }

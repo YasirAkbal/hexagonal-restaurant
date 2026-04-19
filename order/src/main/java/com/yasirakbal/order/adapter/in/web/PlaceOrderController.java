@@ -2,7 +2,7 @@ package com.yasirakbal.order.adapter.in.web;
 
 import com.yasirakbal.order.application.port.in.PlaceOrderCommand;
 import com.yasirakbal.order.application.port.in.PlaceOrderUseCase;
-import com.yasirakbal.order.common.WebAdapter;
+import com.yasirakbal.order.common.annotation.WebAdapter;
 import com.yasirakbal.shared.identifier.TableId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

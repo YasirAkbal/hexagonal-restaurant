@@ -1,7 +1,7 @@
 package com.yasirakbal.table.adapter.in.web;
 
+import com.yasirakbal.shared.identifier.TableId;
 import com.yasirakbal.table.application.domain.model.Table;
-import com.yasirakbal.table.application.domain.model.TableId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

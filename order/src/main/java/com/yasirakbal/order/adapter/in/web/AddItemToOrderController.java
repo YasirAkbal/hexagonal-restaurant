@@ -2,7 +2,7 @@ package com.yasirakbal.order.adapter.in.web;
 
 import com.yasirakbal.order.application.port.in.AddItemToOrderCommand;
 import com.yasirakbal.order.application.port.in.AddItemToOrderUseCase;
-import com.yasirakbal.order.common.WebAdapter;
+import com.yasirakbal.order.common.annotation.WebAdapter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
