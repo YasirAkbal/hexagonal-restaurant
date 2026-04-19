@@ -1,5 +1,6 @@
 package com.yasirakbal.order.adapter.in.web;
 
+import com.yasirakbal.shared.identifier.MenuItemId;
 import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -14,7 +15,7 @@ public class AddItemToOrderRequestModel {
     private OrderId orderId;
 
     @NotNull
-    private UUID menuItemId;
+    private MenuItemId menuItemId;
 
     @NotNull
     @Positive

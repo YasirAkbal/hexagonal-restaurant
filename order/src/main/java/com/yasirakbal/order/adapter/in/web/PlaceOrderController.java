@@ -3,6 +3,7 @@ package com.yasirakbal.order.adapter.in.web;
 import com.yasirakbal.order.application.port.in.PlaceOrderCommand;
 import com.yasirakbal.order.application.port.in.PlaceOrderUseCase;
 import com.yasirakbal.order.common.annotation.WebAdapter;
+import com.yasirakbal.shared.identifier.MenuItemId;
 import com.yasirakbal.shared.identifier.TableId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ class PlaceOrderController {
         TableId tableId = new TableId(request.getTableId());
         List<PlaceOrderCommand.OrderItemCommandData> orderItemDataList = request.getOrderItems().stream()
                 .map(o -> PlaceOrderCommand.OrderItemCommandData.of(
-                            o.getMenuItemId(),
+                            new MenuItemId(o.getMenuItemId()),
                             o.getQuantity()
                         )
                 )

@@ -7,16 +7,12 @@ import com.yasirakbal.shared.identifier.TableId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface OrderToGetOrderResultModelMapper {
-
-    OrderToGetOrderResultModelMapper INSTANCE = Mappers.getMapper(OrderToGetOrderResultModelMapper.class);
 
     @Mapping(source = "id.value", target = "orderId")
     @Mapping(source = "tableId.value", target = "tableId")

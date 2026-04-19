@@ -3,20 +3,20 @@ package com.yasirakbal.configuration;
 import com.yasirakbal.order.application.port.out.LoadTableStatusPort;
 import com.yasirakbal.order.application.port.out.TableInfo;
 import com.yasirakbal.shared.identifier.TableId;
-import com.yasirakbal.table.application.port.integration.TableInternalService;
+import com.yasirakbal.table.application.port.integration.TableIntegrationPort;
 
 public class TableInternalAdapter implements LoadTableStatusPort {
 
-    private final TableInternalService tableInternalService;
+    private final TableIntegrationPort tableIntegrationPort;
 
-    public TableInternalAdapter(TableInternalService tableInternalService) {
-        this.tableInternalService = tableInternalService;
+    public TableInternalAdapter(TableIntegrationPort tableIntegrationPort) {
+        this.tableIntegrationPort = tableIntegrationPort;
     }
 
     @Override
     public TableInfo getTableInfo(TableId tableId) {
         // 1. Retrieve data from the Table project in a foreign format
-        var response = tableInternalService.getTableDetails(tableId);
+        var response = tableIntegrationPort.getTableDetails(tableId);
 
         // 2. Anti Corruption Layer(ACL)
         // Map the foreign data into your own format(in this toy project, they are in same format)

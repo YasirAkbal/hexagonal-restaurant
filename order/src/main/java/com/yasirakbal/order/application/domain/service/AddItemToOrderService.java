@@ -8,7 +8,6 @@ import com.yasirakbal.order.application.port.in.AddItemToOrderUseCase;
 import com.yasirakbal.order.application.port.out.*;
 import com.yasirakbal.shared.identifier.OrderId;
 import lombok.RequiredArgsConstructor;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class AddItemToOrderService implements AddItemToOrderUseCase {
@@ -23,8 +22,7 @@ public class AddItemToOrderService implements AddItemToOrderUseCase {
         OrderId orderId = command.getOrderId();
         Order order = loadOrderPort.getById(orderId);
 
-        UUID menuId = command.getMenuId();
-        MenuInfo menuInfo = loadMenuInfoPort.getMenuInfo(menuId);
+        MenuInfo menuInfo = loadMenuInfoPort.getMenuInfo(command.getMenuItemId());
         order.addItem(OrderItemData.of(
                 menuInfo.menuId(),
                 command.getQuantity(),

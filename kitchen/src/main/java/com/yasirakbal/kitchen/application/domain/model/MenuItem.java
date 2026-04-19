@@ -15,7 +15,7 @@ public class MenuItem {
 
     private final String name;
 
-    private final BigDecimal price;;
+    private final BigDecimal price;
 
     private final String description;
 

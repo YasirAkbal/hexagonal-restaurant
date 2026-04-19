@@ -24,7 +24,7 @@ public class PlaceOrderService implements PlaceOrderUseCase {
         TableInfo tableInfo = loadTableStatusPort.getTableInfo(tableId);
         List<OrderItemData> orderItems = command.getOrderItems().stream()
                 .map(o -> {
-                    MenuInfo menuInfo = loadMenuInfoPort.getMenuInfo(o.getMenuId());
+                    MenuInfo menuInfo = loadMenuInfoPort.getMenuInfo(o.getMenuItemId());
                     return OrderItemData.of(menuInfo.menuId(), o.getQuantity(), Money.of(menuInfo.price()));
                 })
                 .toList();

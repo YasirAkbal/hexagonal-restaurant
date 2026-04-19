@@ -1,7 +1,7 @@
 package com.yasirakbal.order.application.port.out;
 
-import java.util.UUID;
+import com.yasirakbal.shared.identifier.MenuItemId;
 
 public interface LoadMenuInfoPort {
-    MenuInfo getMenuInfo(UUID menuId);
+    MenuInfo getMenuInfo(MenuItemId menuItemId);
 }

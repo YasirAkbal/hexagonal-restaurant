@@ -2,6 +2,7 @@ package com.yasirakbal.configuration;
 
 import com.yasirakbal.kitchen.adapter.out.persistance.KitchenOrderJpaRepository;
 import com.yasirakbal.kitchen.adapter.out.persistance.KitchenOrderMapper;
+import com.yasirakbal.kitchen.adapter.out.persistance.MenuItemJpaRepository;
 import com.yasirakbal.kitchen.common.config.KitchenConfiguration;
 import com.yasirakbal.order.adapter.out.persistence.OrderJpaRepository;
 import com.yasirakbal.order.adapter.out.persistence.OrderMapper;
@@ -20,19 +21,27 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackageClasses = {
         TableJpaRepository.class,
         OrderJpaRepository.class,
-        KitchenOrderJpaRepository.class
+        KitchenOrderJpaRepository.class,
+        MenuItemJpaRepository.class
 })
 @EntityScan(basePackages = {
         "com.yasirakbal.table.adapter.out.persistence",
         "com.yasirakbal.order.adapter.out.persistence",
         "com.yasirakbal.kitchen.adapter.out.persistance"
 })
-@ComponentScan(basePackageClasses = {
-        ConfigurationApplication.class,
-        OrderMapper.class,
-        TableMapper.class,
-        KitchenOrderMapper.class
-})
+@ComponentScan(
+        basePackageClasses = {
+                ConfigurationApplication.class,
+                OrderMapper.class,
+                TableMapper.class,
+                KitchenOrderMapper.class
+        },
+        basePackages = {
+                "com.yasirakbal.order.adapter.in.web",
+                "com.yasirakbal.order.adapter.in.kafka",
+                "com.yasirakbal.table.adapter.in.web"
+        }
+)
 @Import({
         OrderConfiguration.class,
         TableConfiguration.class,

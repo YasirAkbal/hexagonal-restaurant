@@ -1,8 +1,5 @@
 package com.yasirakbal.kitchen.common.config;
 
-import com.yasirakbal.kitchen.adapter.out.persistance.KitchenOrderJpaRepository;
-import com.yasirakbal.kitchen.adapter.out.persistance.KitchenOrderMapper;
-import com.yasirakbal.kitchen.adapter.out.persistance.KitchenOrderPersistenceAdapter;
 import com.yasirakbal.kitchen.application.domain.service.*;
 import com.yasirakbal.kitchen.application.port.out.*;
 import org.springframework.context.annotation.Bean;
@@ -10,14 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class KitchenConfiguration {
-
-    @Bean
-    public KitchenOrderPersistenceAdapter kitchenOrderPersistenceAdapter(
-            KitchenOrderJpaRepository kitchenOrderJpaRepository,
-            KitchenOrderMapper kitchenOrderMapper) {
-
-        return new KitchenOrderPersistenceAdapter(kitchenOrderJpaRepository, kitchenOrderMapper);
-    }
 
     @Bean
     public CreateKitchenOrderService createKitchenOrderService(

@@ -1,8 +1,5 @@
 package com.yasirakbal.table.common.config;
 
-import com.yasirakbal.table.adapter.out.persistence.TableJpaRepository;
-import com.yasirakbal.table.adapter.out.persistence.TableMapper;
-import com.yasirakbal.table.adapter.out.persistence.TablePersistenceAdapter;
 import com.yasirakbal.table.application.domain.service.OccupyTableService;
 import com.yasirakbal.table.application.domain.service.UnOccupyTableService;
 import com.yasirakbal.table.application.port.in.OccupyTableUseCase;
@@ -29,13 +26,5 @@ public class TableConfiguration {
             SaveTablePort saveTablePort) {
 
         return new UnOccupyTableService(loadTablePort, saveTablePort);
-    }
-
-    @Bean
-    public TablePersistenceAdapter tablePersistenceAdapter(
-            TableJpaRepository tableJpaRepository,
-            TableMapper tableMapper) {
-
-        return new TablePersistenceAdapter(tableJpaRepository, tableMapper);
     }
 }

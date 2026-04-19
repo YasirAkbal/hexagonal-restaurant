@@ -4,15 +4,17 @@ import com.yasirakbal.shared.enums.TableStatus;
 import com.yasirakbal.shared.identifier.TableId;
 import com.yasirakbal.table.application.domain.model.Table;
 import com.yasirakbal.table.application.port.in.GetTableUseCase;
-import com.yasirakbal.table.application.port.integration.TableInternalService;
-import com.yasirakbal.table.application.port.integration.TableResponseDTO;
+import com.yasirakbal.table.application.port.integration.TableIntegrationPort;
+import com.yasirakbal.table.application.port.integration.TableIntegrationResponseDTO;
 import com.yasirakbal.table.application.port.out.SaveTablePort;
 import com.yasirakbal.table.application.port.out.LoadTablePort;
+import com.yasirakbal.table.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
+@PersistenceAdapter
 @RequiredArgsConstructor
 public class TablePersistenceAdapter implements SaveTablePort, LoadTablePort,
-        GetTableUseCase, TableInternalService {
+        GetTableUseCase, TableIntegrationPort {
 
     private final TableJpaRepository tableJpaRepository;
     private final TableMapper tableMapper;
@@ -35,14 +37,14 @@ public class TablePersistenceAdapter implements SaveTablePort, LoadTablePort,
     }
 
     @Override
-    public TableResponseDTO getTableDetails(TableId tableId) {
+    public TableIntegrationResponseDTO getTableDetails(TableId tableId) {
         TableJpaEntity jpaEntity = tableJpaRepository.findById(tableId.getValue())
                 .orElseThrow(() ->
                         new IllegalArgumentException("Table not found with id = %s"
                                 .formatted(tableId.getValue()))
                 );
 
-        return new TableResponseDTO(new TableId(jpaEntity.getId()),
+        return new TableIntegrationResponseDTO(new TableId(jpaEntity.getId()),
                 TableStatus.valueOf(jpaEntity.getStatus()));
     }
 }

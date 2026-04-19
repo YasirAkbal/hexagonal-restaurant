@@ -1,28 +1,25 @@
 package com.yasirakbal.configuration;
 
+import com.yasirakbal.kitchen.application.port.integration.MenuIntegrationPort;
 import com.yasirakbal.order.application.port.out.LoadMenuInfoPort;
 import com.yasirakbal.order.application.port.out.LoadTableStatusPort;
-import com.yasirakbal.order.application.port.out.MenuInfo;
-import com.yasirakbal.shared.identifier.MenuItemId;
-import com.yasirakbal.table.application.port.integration.TableInternalService;
+import com.yasirakbal.table.application.port.integration.TableIntegrationPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.math.BigDecimal;
 
 @Configuration
 public class BeanConfig {
 
     @Bean
-    public LoadTableStatusPort loadTableStatusPort(TableInternalService tableInternalService) {
+    public LoadTableStatusPort loadTableStatusPort(TableIntegrationPort tableIntegrationPort) {
 
-        return new TableInternalAdapter(tableInternalService);
+        return new TableInternalAdapter(tableIntegrationPort);
     }
 
     @Bean
-    public LoadMenuInfoPort loadMenuInfoPort() {
+    public LoadMenuInfoPort loadMenuInfoPort(MenuIntegrationPort menuIntegrationPort) {
 
-        return menuId -> new MenuInfo(new MenuItemId(menuId), "menu", BigDecimal.ZERO);
+        return new MenuInternalAdapter(menuIntegrationPort);
     }
 
 }

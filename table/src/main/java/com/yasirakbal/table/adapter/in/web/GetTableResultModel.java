@@ -11,6 +11,5 @@ public class GetTableResultModel {
     Integer tableNumber;
     Integer capacity;
     TableStatus status;
-    Integer pendingOrderCount;
 }
 

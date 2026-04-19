@@ -1,5 +1,6 @@
 package com.yasirakbal.order.application.port.in;
 
+import com.yasirakbal.shared.identifier.MenuItemId;
 import com.yasirakbal.shared.identifier.TableId;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Value;
 
 import java.util.List;
-import java.util.UUID;
 
 //Business validations not requiring access to domain entity data should be implemented here.
 @Value
@@ -30,14 +30,14 @@ public class PlaceOrderCommand {
     public static class OrderItemCommandData {
 
         @NotNull
-        UUID menuId;
+        MenuItemId menuItemId;
 
         @NotNull
         @Positive
         Integer quantity;
 
-        public static OrderItemCommandData of(UUID menuId, Integer quantity) {
-            return new OrderItemCommandData(menuId, quantity);
+        public static OrderItemCommandData of(MenuItemId menuItemId, Integer quantity) {
+            return new OrderItemCommandData(menuItemId, quantity);
         }
     }
 }

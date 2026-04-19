@@ -5,8 +5,10 @@ import com.yasirakbal.kitchen.application.domain.model.KitchenOrderId;
 import com.yasirakbal.kitchen.application.port.in.GetKitchenOrderUseCase;
 import com.yasirakbal.kitchen.application.port.out.LoadKitchenOrderPort;
 import com.yasirakbal.kitchen.application.port.out.SaveKitchenOrderPort;
+import com.yasirakbal.kitchen.common.annotation.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
+@PersistenceAdapter
 @RequiredArgsConstructor
 //I took shortcut for a simple data fetching use case(GetKitchenOrderUseCase) again
 public class KitchenOrderPersistenceAdapter implements SaveKitchenOrderPort, LoadKitchenOrderPort, GetKitchenOrderUseCase {
