@@ -27,4 +27,5 @@ public class TableConfiguration {
 
         return new UnOccupyTableService(loadTablePort, saveTablePort);
     }
+
 }

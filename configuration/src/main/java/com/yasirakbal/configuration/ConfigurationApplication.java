@@ -11,6 +11,7 @@ import com.yasirakbal.table.adapter.out.persistence.TableJpaRepository;
 import com.yasirakbal.table.adapter.out.persistence.TableMapper;
 import com.yasirakbal.table.common.config.TableConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -50,7 +51,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class ConfigurationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConfigurationApplication.class, args);
+        SpringApplication application = new SpringApplication(ConfigurationApplication.class);
+        application.setWebApplicationType(WebApplicationType.SERVLET);
+        application.run(args);
     }
 
 }

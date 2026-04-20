@@ -5,7 +5,6 @@ import com.yasirakbal.table.application.domain.model.Table;
 import com.yasirakbal.table.application.port.in.OccupyTableUseCase;
 import com.yasirakbal.table.application.port.out.LoadTablePort;
 import com.yasirakbal.table.application.port.out.SaveTablePort;
-import com.yasirakbal.table.common.UseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
