@@ -17,12 +17,11 @@ import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Order {
 
-    @Getter
     private OrderId id;
 
-    @Getter
     private TableId tableId;
 
     private List<OrderItem> items;
@@ -96,7 +95,7 @@ public class Order {
 
     public Money calculateTotal() {
         return items.stream()
-                .map(OrderItem::getPrice)
+                .map(i -> i.getPrice().multiply(i.getQuantity()))
                 .reduce(Money.ZERO, Money::add);
     }
 

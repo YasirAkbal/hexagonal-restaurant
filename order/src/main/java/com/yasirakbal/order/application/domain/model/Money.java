@@ -41,4 +41,12 @@ public class Money {
         return this.amount.compareTo(other.amount) > 0;
     }
 
+    public Money multiply(Money other) {
+        return new Money(this.amount.multiply(other.amount));
+    }
+
+    public Money multiply(Integer number) {
+        BigDecimal numBD = BigDecimal.valueOf(number);
+        return new Money(this.amount.multiply(numBD));
+    }
 }

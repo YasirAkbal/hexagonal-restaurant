@@ -11,12 +11,11 @@ import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class KitchenOrder {
 
-    @Getter
     private KitchenOrderId id;
 
-    @Getter
     private OrderId orderId;
 
     private List<KitchenOrderItem> orderItems;

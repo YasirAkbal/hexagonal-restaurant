@@ -14,6 +14,8 @@ public interface KitchenOrderMapper {
     @Mapping(target = "id", source = "id.value")
     @Mapping(target = "orderId", source = "orderId.value")
     @Mapping(target = "orderItems", source = "kitchenOrder", qualifiedByName = "mapItemSnapshots")
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "receivedAt", source = "receivedAt")
     KitchenOrderJpaEntity mapToJpaEntity(KitchenOrder kitchenOrder);
 
     @Mapping(target = "id", source = "snapshot.id.value")

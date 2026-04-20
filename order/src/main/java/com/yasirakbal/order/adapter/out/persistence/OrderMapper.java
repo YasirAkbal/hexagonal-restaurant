@@ -19,6 +19,8 @@ public interface OrderMapper {
     @Mapping(target = "tableId", source = "tableId.value")
     @Mapping(target = "totalAmount", source = "order", qualifiedByName = "calculateTotalAmount")
     @Mapping(target = "items", source = "order", qualifiedByName = "mapItemSnapshots")
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "createdAt", source = "createdAt")
     OrderJpaEntity mapToOrderJpaEntity(Order order);
 
     @Mapping(target = "id", source = "id.value")
