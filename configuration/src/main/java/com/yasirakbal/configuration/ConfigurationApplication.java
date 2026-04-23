@@ -39,8 +39,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         },
         basePackages = {
                 "com.yasirakbal.order.adapter.in.web",
-                "com.yasirakbal.order.adapter.in.kafka",
-                "com.yasirakbal.table.adapter.in.web"
+                "com.yasirakbal.order.adapter.in.messaging",
+                "com.yasirakbal.order.adapter.out.messaging",
+                "com.yasirakbal.table.adapter.in.web",
+                "com.yasirakbal.table.adapter.out.messaging",
+                "com.yasirakbal.kitchen.adapter.in.messaging",
+                "com.yasirakbal.kitchen.adapter.in.web",
+                "com.yasirakbal.kitchen.adapter.out.messaging"
         }
 )
 @Import({

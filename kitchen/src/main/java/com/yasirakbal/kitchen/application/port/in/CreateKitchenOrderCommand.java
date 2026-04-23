@@ -36,5 +36,9 @@ public class CreateKitchenOrderCommand {
         @NotNull
         @Positive
         Integer quantity;
+
+        public static CreateKitchenOrderItemCommandData of(MenuItemId menuItemId, Integer quantity) {
+            return new CreateKitchenOrderItemCommandData(menuItemId, quantity);
+        }
     }
 }

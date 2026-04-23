@@ -1,4 +1,4 @@
-package com.yasirakbal.configuration;
+package com.yasirakbal.configuration.bootstrap;
 
 import com.yasirakbal.kitchen.adapter.out.persistance.MenuItemJpaEntity;
 import com.yasirakbal.kitchen.adapter.out.persistance.MenuItemJpaRepository;

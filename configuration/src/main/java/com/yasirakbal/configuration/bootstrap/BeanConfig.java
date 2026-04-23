@@ -1,5 +1,7 @@
-package com.yasirakbal.configuration;
+package com.yasirakbal.configuration.bootstrap;
 
+import com.yasirakbal.configuration.adapter.internal.MenuInternalAdapter;
+import com.yasirakbal.configuration.adapter.internal.TableInternalAdapter;
 import com.yasirakbal.kitchen.application.port.integration.MenuIntegrationPort;
 import com.yasirakbal.order.application.port.out.LoadMenuInfoPort;
 import com.yasirakbal.order.application.port.out.LoadTableStatusPort;

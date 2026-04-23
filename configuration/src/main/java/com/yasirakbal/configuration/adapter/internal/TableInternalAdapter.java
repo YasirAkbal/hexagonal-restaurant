@@ -1,4 +1,4 @@
-package com.yasirakbal.configuration;
+package com.yasirakbal.configuration.adapter.internal;
 
 import com.yasirakbal.order.application.port.out.LoadTableStatusPort;
 import com.yasirakbal.order.application.port.out.TableInfo;

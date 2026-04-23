@@ -6,7 +6,10 @@ import com.yasirakbal.kitchen.application.port.in.GetKitchenOrderUseCase;
 import com.yasirakbal.kitchen.application.port.out.LoadKitchenOrderPort;
 import com.yasirakbal.kitchen.application.port.out.SaveKitchenOrderPort;
 import com.yasirakbal.kitchen.common.annotation.PersistenceAdapter;
+import com.yasirakbal.shared.identifier.OrderId;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -31,5 +34,11 @@ public class KitchenOrderPersistenceAdapter implements SaveKitchenOrderPort, Loa
                 );
 
         return kitchenOrderMapper.mapToKitchenOrder(jpaEntity);
+    }
+
+    @Override
+    public Optional<KitchenOrder> findByOrderId(OrderId orderId) {
+        return kitchenOrderJpaRepository.findByOrderId(orderId.getValue())
+                .map(kitchenOrderMapper::mapToKitchenOrder);
     }
 }

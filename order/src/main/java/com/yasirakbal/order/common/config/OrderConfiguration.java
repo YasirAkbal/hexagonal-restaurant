@@ -12,17 +12,19 @@ public class OrderConfiguration {
     public PlaceOrderService placeOrderService(
             SaveOrderPort saveOrderPort,
             LoadTableStatusPort loadTableStatusPort,
-            LoadMenuInfoPort loadMenuInfoPort) {
+            LoadMenuInfoPort loadMenuInfoPort,
+            PublishOrderPlacedPort publishOrderPlacedPort) {
 
-        return new PlaceOrderService(saveOrderPort, loadTableStatusPort, loadMenuInfoPort);
+        return new PlaceOrderService(saveOrderPort, loadTableStatusPort, loadMenuInfoPort, publishOrderPlacedPort);
     }
 
     @Bean
     public CancelOrderService cancelOrderService(
             LoadOrderPort loadOrderPort,
-            SaveOrderPort saveOrderPort) {
+            SaveOrderPort saveOrderPort,
+            PublishOrderCancelledPort publishOrderCancelledPort) {
 
-        return new CancelOrderService(loadOrderPort, saveOrderPort);
+        return new CancelOrderService(loadOrderPort, saveOrderPort, publishOrderCancelledPort);
     }
 
     @Bean

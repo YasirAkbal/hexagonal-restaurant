@@ -1,5 +1,8 @@
 C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\enums\TableStatus.java
 C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\events\KitchenOrderReadyIntegrationEvent.java
+C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\events\OrderCancelledIntegrationEvent.java
+C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\events\OrderPlacedIntegrationEvent.java
+C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\events\OrderPlacedLineItem.java
 C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\events\TableOrderDeliveredIntegrationEvent.java
 C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\identifier\MenuItemId.java
 C:\Users\yasirak\Desktop\cleanarch\hexagonal-restaurant\shared\src\main\java\com\yasirakbal\shared\identifier\OrderId.java

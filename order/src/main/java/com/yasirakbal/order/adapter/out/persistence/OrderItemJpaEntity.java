@@ -21,7 +21,7 @@ public class OrderItemJpaEntity {
     @Id
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private UUID menuItemId;
 
     @Column(nullable = false)

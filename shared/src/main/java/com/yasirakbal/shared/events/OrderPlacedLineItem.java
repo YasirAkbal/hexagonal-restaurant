@@ -9,9 +9,9 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TableOrderDeliveredIntegrationEvent {
+public class OrderPlacedLineItem {
 
-    private UUID orderId;
+    private UUID menuItemId;
 
-    private UUID tableId;
+    private Integer quantity;
 }

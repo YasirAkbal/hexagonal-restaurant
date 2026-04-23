@@ -1,10 +1,13 @@
 package com.yasirakbal.table.common.config;
 
+import com.yasirakbal.table.application.domain.service.MarkOrderDeliveredService;
 import com.yasirakbal.table.application.domain.service.OccupyTableService;
 import com.yasirakbal.table.application.domain.service.UnOccupyTableService;
+import com.yasirakbal.table.application.port.in.MarkOrderDeliveredUseCase;
 import com.yasirakbal.table.application.port.in.OccupyTableUseCase;
 import com.yasirakbal.table.application.port.in.UnOccupyTableUseCase;
 import com.yasirakbal.table.application.port.out.LoadTablePort;
+import com.yasirakbal.table.application.port.out.PublishTableOrderDeliveredPort;
 import com.yasirakbal.table.application.port.out.SaveTablePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +29,13 @@ public class TableConfiguration {
             SaveTablePort saveTablePort) {
 
         return new UnOccupyTableService(loadTablePort, saveTablePort);
+    }
+
+    @Bean
+    public MarkOrderDeliveredUseCase markOrderDeliveredUseCase(
+            PublishTableOrderDeliveredPort publishTableOrderDeliveredPort) {
+
+        return new MarkOrderDeliveredService(publishTableOrderDeliveredPort);
     }
 
 }

@@ -16,7 +16,7 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
         spring.json.use.type.headers: true
-        spring.json.type.mapping: "TableOrderDeliveredIntegrationEvent:com.yasirakbal.shared.events.TableOrderDeliveredIntegrationEvent,KitchenOrderReadyIntegrationEvent:com.yasirakbal.shared.events.KitchenOrderReadyIntegrationEvent"
+        spring.json.type.mapping: "OrderPlacedIntegrationEvent:com.yasirakbal.shared.events.OrderPlacedIntegrationEvent,OrderCancelledIntegrationEvent:com.yasirakbal.shared.events.OrderCancelledIntegrationEvent,OrderPlacedLineItem:com.yasirakbal.shared.events.OrderPlacedLineItem,TableOrderDeliveredIntegrationEvent:com.yasirakbal.shared.events.TableOrderDeliveredIntegrationEvent,KitchenOrderReadyIntegrationEvent:com.yasirakbal.shared.events.KitchenOrderReadyIntegrationEvent"
 
   datasource:
     url: jdbc:postgresql://localhost:5432/hexagonal-restaurant
@@ -37,5 +37,7 @@ spring:
 order:
   kafka:
     topics:
-      kitchen-order-ready: kitchen-order-ready
-      table-order-delivered: table-order-delivered
+      order-placed: order.order.placed
+      order-cancelled: order.order.cancelled
+      kitchen-order-ready: kitchen.order.ready
+      table-order-delivered: table.order.delivered

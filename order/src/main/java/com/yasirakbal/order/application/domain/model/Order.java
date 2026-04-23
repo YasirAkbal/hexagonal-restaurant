@@ -33,8 +33,8 @@ public class Order {
     public static Order placeOrder(TableId tableId, TableStatus tableStatus,
                               List<OrderItemData> itemsData) {
 
-        if (!tableStatus.equals(TableStatus.AVAILABLE)) {
-            throw new IllegalArgumentException("Table is not available.");
+        if (!tableStatus.equals(TableStatus.AVAILABLE) && !tableStatus.equals(TableStatus.OCCUPIED)) {
+            throw new IllegalArgumentException("Table is not available for placing an order.");
         }
         if (itemsData == null || itemsData.isEmpty()) {
             throw new IllegalArgumentException("Order must have at least 1 item");
@@ -43,7 +43,7 @@ public class Order {
         Order order = new Order();
         order.id = new OrderId(UUID.randomUUID());
         order.tableId = tableId;
-        order.status = OrderStatus.PREPARING;
+        order.status = OrderStatus.PENDING;
         order.createdAt = LocalDateTime.now();
         order.items = itemsData.stream()
                 .map(data -> order.createOrderItem(

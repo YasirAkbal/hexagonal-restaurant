@@ -1,4 +1,4 @@
-package com.yasirakbal.configuration;
+package com.yasirakbal.configuration.adapter.internal;
 
 import com.yasirakbal.kitchen.application.port.integration.MenuIntegrationPort;
 import com.yasirakbal.order.application.port.out.LoadMenuInfoPort;

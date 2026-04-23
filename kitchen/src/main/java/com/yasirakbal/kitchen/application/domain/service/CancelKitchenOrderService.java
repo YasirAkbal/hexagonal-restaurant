@@ -5,6 +5,7 @@ import com.yasirakbal.kitchen.application.domain.model.KitchenOrderId;
 import com.yasirakbal.kitchen.application.port.in.CancelKitchenOrderUseCase;
 import com.yasirakbal.kitchen.application.port.out.LoadKitchenOrderPort;
 import com.yasirakbal.kitchen.application.port.out.SaveKitchenOrderPort;
+import com.yasirakbal.shared.identifier.OrderId;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,5 +20,13 @@ public class CancelKitchenOrderService implements CancelKitchenOrderUseCase {
         kitchenOrder.cancel();
 
         saveKitchenOrderPort.save(kitchenOrder);
+    }
+
+    @Override
+    public void cancelByOrderId(OrderId orderId) {
+        loadKitchenOrderPort.findByOrderId(orderId).ifPresent(kitchenOrder -> {
+            kitchenOrder.cancel();
+            saveKitchenOrderPort.save(kitchenOrder);
+        });
     }
 }

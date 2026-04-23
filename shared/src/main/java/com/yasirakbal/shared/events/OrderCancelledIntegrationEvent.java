@@ -9,9 +9,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TableOrderDeliveredIntegrationEvent {
+public class OrderCancelledIntegrationEvent {
 
     private UUID orderId;
-
-    private UUID tableId;
 }
