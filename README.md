@@ -81,12 +81,6 @@ Apache Kafka (KRaft), JUnit 5, Mockito, AssertJ
 # Start Kafka
 docker compose up -d
 
-# Start a PostgreSQL instance (example with Docker)
-docker run -d --name pg \
-  -e POSTGRES_DB=hexagonal-restaurant \
-  -e POSTGRES_PASSWORD=123456 \
-  -p 5432:5432 postgres:16
-
 # Build and run
 mvn -pl configuration spring-boot:run
 ```
