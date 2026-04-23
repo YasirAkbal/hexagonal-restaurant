@@ -1,10 +1,21 @@
-# Local Kafka (KRaft, single broker) — matches spring.kafka.bootstrap-servers=localhost:9092
-#
-# Bitnami `docker.io/bitnami/kafka:*` public tags were removed/archived; this uses the official Apache image.
-# Start:  docker compose up -d
-# Stop:   docker compose down
-#
 services:
+  postgres:
+    image: docker.io/library/postgres:16-alpine
+    container_name: hexagonal-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "hexagonal-restaurant"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   kafka:
     image: docker.io/apache/kafka:latest
     container_name: hexagonal-kafka
@@ -22,3 +33,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+volumes:
+  postgres_data:
