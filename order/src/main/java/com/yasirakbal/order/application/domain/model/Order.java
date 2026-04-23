@@ -33,7 +33,7 @@ public class Order {
     public static Order placeOrder(TableId tableId, TableStatus tableStatus,
                               List<OrderItemData> itemsData) {
 
-        if (!tableStatus.equals(TableStatus.AVAILABLE) && !tableStatus.equals(TableStatus.OCCUPIED)) {
+        if (!tableStatus.equals(TableStatus.AVAILABLE)) {
             throw new IllegalArgumentException("Table is not available for placing an order.");
         }
         if (itemsData == null || itemsData.isEmpty()) {

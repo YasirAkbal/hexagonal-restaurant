@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class OrderPlacedKafkaConsumer {
+public class KitchenOrderPlacedKafkaConsumer {
 
     private final CreateKitchenOrderUseCase createKitchenOrderUseCase;
 

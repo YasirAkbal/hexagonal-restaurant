@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "name": "hexagonal-restaurant",
-    "description": "End-to-end API checks for the monolith `configuration` app (table + order + kitchen in one JVM).\n\n## Before you run\n1. **Start**: Kafka + Postgres, then `ConfigurationApplication` from the `configuration` module.\n2. **Kafka**: `configuration` uses `application.yml` (`spring.kafka.listener.auto-startup: true` by default). Optional broker address: profile **`kafka`** + `application-kafka.yml` / env `SPRING_KAFKA_BOOTSTRAP_SERVERS`.\n3. **`Place order` (201)** saves **`orderId`** to the environment (Tests). After the kitchen consumer creates the row, **`GET /api/kitchen/orders/by-order/{{orderId}}`** returns **`kitchenOrderId`** (step **3c** Tests also saves it). If you get **404**, wait/retry until Kafka has processed `order.order.placed`.\n4. **Seeded data** (`DataSeeder`): `tableId` = `aaaaaaaa-0000-0000-0000-000000000001`, burger `menuItemId` = `bbbbbbbb-0000-0000-0000-000000000001`.\n5. **Naming**: opening a table sets status **OCCUPIED** (there is no `OPEN`). Closing sets **AVAILABLE** (not `CLOSED`).\n6. **Between requests**: after mutating calls that publish Kafka messages, wait a few seconds before `GET order` if consumers are async.\n\n## Topics (reference)\n- `order.order.placed` → kitchen creates `RECEIVED`\n- `kitchen.order.ready` → order → `READY`\n- `table.order.delivered` → order → `DELIVERED`",
+    "description": "End-to-end API checks for the monolith `configuration` app (table + order + kitchen in one JVM).\n\n## Akış (Happy path)\n1. **`Place order` önce** — masa seed ile **AVAILABLE** olmalı; **OCCUPIED** iken `place order` **400** döner (domain kuralı).\n2. **`order.order.placed`** → mutfak `RECEIVED` kaydı; table consumer masayı **OCCUPIED** yapar.\n3. Kafka gecikmesi: `GET .../tables/{id}` hâlâ **AVAILABLE** ise birkaç saniye bekleyip tekrarlayın.\n\n## Before you run\n1. **Start**: Kafka + Postgres, then `ConfigurationApplication` from the `configuration` module.\n2. **Kafka**: `spring.kafka.listener.auto-startup: true` (varsayılan). Broker: profile **`kafka`** + `application-kafka.yml` veya `SPRING_KAFKA_BOOTSTRAP_SERVERS`.\n3. **`orderId`**: adım 1 **Tests** ile environment’a yazılır. **`kitchenOrderId`**: adım **4** (`GET .../by-order/...`); **404** ise consumer bekleyin.\n4. **Seeded data** (`DataSeeder`): `tableId` = `aaaaaaaa-0000-0000-0000-000000000001`, burger `menuItemId` = `bbbbbbbb-0000-0000-0000-000000000001`.\n5. **Kapatma**: `POST .../close` → masa **AVAILABLE** (yeniden place order için).\n\n## Topics (reference)\n- `order.order.placed` → kitchen `RECEIVED`; table **OCCUPIED**\n- `kitchen.order.ready` → order **READY**\n- `table.order.delivered` → order **DELIVERED**",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -10,58 +10,7 @@
       "name": "Happy path – full flow",
       "item": [
         {
-          "name": "1. Open table",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test('200 OK', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "const j = pm.response.json();",
-                  "pm.test('Table OCCUPIED', function () {",
-                  "    pm.expect(j.status).to.eql('OCCUPIED');",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": "{{baseUrl}}/api/tables/{{tableId}}/open",
-            "description": "Garson masayı açar → tablo **OCCUPIED**."
-          },
-          "response": []
-        },
-        {
-          "name": "2. Get table (expect OCCUPIED)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
-                  "const j = pm.response.json();",
-                  "pm.test('Table OCCUPIED', function () {",
-                  "    pm.expect(j.status).to.eql('OCCUPIED');",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": "{{baseUrl}}/api/tables/{{tableId}}"
-          },
-          "response": []
-        },
-        {
-          "name": "3. Place order",
+          "name": "1. Place order",
           "event": [
             {
               "listen": "test",
@@ -93,12 +42,37 @@
               "raw": "{\n  \"tableId\": \"{{tableId}}\",\n  \"orderItems\": [\n    {\n      \"menuItemId\": \"{{menuItemId}}\",\n      \"quantity\": 1\n    }\n  ]\n}"
             },
             "url": "{{baseUrl}}/api/orders",
-            "description": "Masa OCCUPIED / AVAILABLE ise sipariş → **PENDING**, `order.order.placed` yayınlanır (Kafka)."
+            "description": "Masa yalnızca **AVAILABLE** iken sipariş kabul edilir (**OCCUPIED** → 400). **201** → `order.order.placed` (mutfak + masa consumer)."
           },
           "response": []
         },
         {
-          "name": "3b. Get order (expect PENDING)",
+          "name": "2. Get table (expect OCCUPIED after Kafka)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.test('Table OCCUPIED (retry if still AVAILABLE — Kafka)', function () {",
+                  "    pm.expect(j.status).to.eql('OCCUPIED');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}",
+            "description": "`OrderPlaced` sonrası table consumer masayı **OCCUPIED** yapar. Hâlâ **AVAILABLE** ise birkaç saniye bekleyip bu isteği tekrarlayın."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Get order (expect PENDING)",
           "event": [
             {
               "listen": "test",
@@ -118,12 +92,12 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/orders/{{orderId}}",
-            "description": "`orderId` adım 3’teki **Tests** script’i ile environment’a yazılır."
+            "description": "`orderId` adım **1**’deki **Tests** script’i ile environment’a yazılır."
           },
           "response": []
         },
         {
-          "name": "3c. Get kitchen order by order id",
+          "name": "4. Get kitchen order by order id",
           "event": [
             {
               "listen": "test",
@@ -149,7 +123,7 @@
           "response": []
         },
         {
-          "name": "4. Kitchen – start preparing",
+          "name": "5. Kitchen – start preparing",
           "event": [
             {
               "listen": "test",
@@ -171,12 +145,12 @@
             "method": "POST",
             "header": [],
             "url": "{{baseUrl}}/api/kitchen/orders/{{kitchenOrderId}}/start",
-            "description": "`kitchenOrderId` adım **3c** ile environment’a yazılır (veya `GET /api/kitchen/orders/{id}`)."
+            "description": "`kitchenOrderId` adım **4** ile environment’a yazılır (veya `GET /api/kitchen/orders/{id}`)."
           },
           "response": []
         },
         {
-          "name": "5. Kitchen – mark ready",
+          "name": "6. Kitchen – mark ready",
           "event": [
             {
               "listen": "test",
@@ -203,7 +177,7 @@
           "response": []
         },
         {
-          "name": "6. Get order (expect READY after Kafka)",
+          "name": "7. Get order (expect READY after Kafka)",
           "event": [
             {
               "listen": "test",
@@ -228,7 +202,7 @@
           "response": []
         },
         {
-          "name": "7. Table – mark order delivered",
+          "name": "8. Table – mark order delivered",
           "event": [
             {
               "listen": "test",
@@ -264,7 +238,7 @@
           "response": []
         },
         {
-          "name": "8. Get order (expect DELIVERED after Kafka)",
+          "name": "9. Get order (expect DELIVERED after Kafka)",
           "event": [
             {
               "listen": "test",
@@ -288,7 +262,7 @@
           "response": []
         },
         {
-          "name": "9. Close table",
+          "name": "10. Close table",
           "event": [
             {
               "listen": "test",
@@ -315,7 +289,7 @@
           "response": []
         },
         {
-          "name": "10. Get table (expect AVAILABLE)",
+          "name": "11. Get table (expect AVAILABLE)",
           "event": [
             {
               "listen": "test",
@@ -339,7 +313,7 @@
           "response": []
         }
       ],
-      "description": "Sırayı bozmadan çalıştırın. **`orderId`** adım 3’te set edilir. **`kitchenOrderId`** adım **3c** (`GET .../by-order/...`) ile set edilir (önce Kafka consumer’ın çalışması gerekir)."
+      "description": "Sırayı bozmadan çalıştırın. **1** `Place order` (masa **AVAILABLE**). **2** masanın **OCCUPIED** olması Kafka’ya bağlı — gerekirse tekrarlayın. **`orderId`** adım 1’de; **`kitchenOrderId`** adım **4**’te set edilir (**404** ise consumer bekleyin)."
     },
     {
       "name": "Helpers",
@@ -360,6 +334,16 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/tables/{{tableId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Open table (staff — makes OCCUPIED)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}/open",
+            "description": "Masayı **OCCUPIED** yapar. Happy path’te **kullanmayın**: sonrasında `place order` yalnızca **AVAILABLE** kabul ettiği için **400** alırsınız. Kapatıp (`close`) tekrar **AVAILABLE** yapın veya yeni seed tablo kullanın."
           },
           "response": []
         },

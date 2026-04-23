@@ -42,6 +42,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 "com.yasirakbal.order.adapter.in.messaging",
                 "com.yasirakbal.order.adapter.out.messaging",
                 "com.yasirakbal.table.adapter.in.web",
+                "com.yasirakbal.table.adapter.in.messaging",
                 "com.yasirakbal.table.adapter.out.messaging",
                 "com.yasirakbal.kitchen.adapter.in.messaging",
                 "com.yasirakbal.kitchen.adapter.in.web",

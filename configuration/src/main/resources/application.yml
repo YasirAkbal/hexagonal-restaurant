@@ -59,5 +59,8 @@ kitchen:
 
 table:
   kafka:
+    consumer:
+      group-id: table-group
     topics:
+      order-placed: order.order.placed
       table-order-delivered: table.order.delivered
