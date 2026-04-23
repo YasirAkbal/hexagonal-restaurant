@@ -1,4 +1,4 @@
-## hexagonal-restaurant
+# hexagonal-restaurant
 
 A modular monolith implementing a restaurant order management system. Built as a deliberate
 exercise in applying **Hexagonal (Ports & Adapters) Architecture** and **Domain-Driven Design**
