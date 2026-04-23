@@ -1,5 +1,6 @@
 package com.yasirakbal.order.adapter.in.web;
 
+import com.yasirakbal.order.application.domain.model.Order;
 import com.yasirakbal.order.application.port.in.PlaceOrderCommand;
 import com.yasirakbal.order.application.port.in.PlaceOrderUseCase;
 import com.yasirakbal.order.common.annotation.WebAdapter;
@@ -7,6 +8,7 @@ import com.yasirakbal.shared.identifier.MenuItemId;
 import com.yasirakbal.shared.identifier.TableId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +22,10 @@ import java.util.List;
 class PlaceOrderController {
 
     private final PlaceOrderUseCase placeOrderUseCase;
+    private final OrderToGetOrderResultModelMapper orderToGetOrderResultModelMapper;
 
     @PostMapping("api/orders")
-    public ResponseEntity<Void> placeOrder(@RequestBody @Valid PlaceOrderRequestModel request) {
+    public ResponseEntity<GetOrderResultModel> placeOrder(@RequestBody @Valid PlaceOrderRequestModel request) {
         TableId tableId = new TableId(request.getTableId());
         List<PlaceOrderCommand.OrderItemCommandData> orderItemDataList = request.getOrderItems().stream()
                 .map(o -> PlaceOrderCommand.OrderItemCommandData.of(
@@ -34,8 +37,9 @@ class PlaceOrderController {
 
 
         PlaceOrderCommand placeOrderCommand = PlaceOrderCommand.of(tableId, orderItemDataList);
-        placeOrderUseCase.placeOrder(placeOrderCommand);
+        Order order = placeOrderUseCase.placeOrder(placeOrderCommand);
 
-        return ResponseEntity.noContent().build();
+        GetOrderResultModel body = orderToGetOrderResultModelMapper.map(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(body);
     }
 }

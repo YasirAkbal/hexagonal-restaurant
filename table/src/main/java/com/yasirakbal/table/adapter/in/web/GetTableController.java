@@ -21,7 +21,7 @@ public class GetTableController {
     private final TableToGetTableResultModelMapper tableMapper;
 
     @GetMapping("api/tables/{id}")
-    public ResponseEntity<GetTableResultModel> getTable(@PathVariable UUID id) {
+    public ResponseEntity<GetTableResultModel> getTable(@PathVariable("id") UUID id) {
         TableId tableId = new TableId(id);
         Table table = getTableUseCase.getById(tableId);
 

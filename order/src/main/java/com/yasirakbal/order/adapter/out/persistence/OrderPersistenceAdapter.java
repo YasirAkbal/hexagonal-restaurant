@@ -7,6 +7,7 @@ import com.yasirakbal.order.application.port.out.LoadOrderPort;
 import com.yasirakbal.order.common.annotation.PersistenceAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 /*
  * Usually Persistence Adapters don't implement Use Cases, but I intentionally took a shortcut here,
@@ -20,12 +21,14 @@ public class OrderPersistenceAdapter implements SaveOrderPort, LoadOrderPort, Ge
     private final OrderMapper orderMapper;
 
     @Override
+    @Transactional
     public void saveOrder(Order order) {
         OrderJpaEntity orderJpa = orderMapper.mapToOrderJpaEntity(order);
         orderJpaRepository.save(orderJpa);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Order getById(OrderId orderId) {
         OrderJpaEntity orderJpaEntity = orderJpaRepository
                 .findById(orderId.getValue())
@@ -40,6 +43,7 @@ public class OrderPersistenceAdapter implements SaveOrderPort, LoadOrderPort, Ge
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Order getOrder(OrderId orderId) {
         return getById(orderId);
     }

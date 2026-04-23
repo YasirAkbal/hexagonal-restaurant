@@ -1,5 +1,6 @@
 package com.yasirakbal.order.adapter.in.web;
 
+import com.yasirakbal.order.application.domain.model.Order;
 import com.yasirakbal.order.application.port.in.CancelOrderUseCase;
 import com.yasirakbal.order.common.annotation.WebAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
@@ -22,7 +23,7 @@ public class CancelOrderController {
     private final CancelOrderUseCase cancelOrderUseCase;
 
     @PostMapping("api/orders/{id}/cancel")
-    public ResponseEntity<Void> cancelOrder(@PathVariable @NotNull UUID id) {
+    public ResponseEntity<Void> cancelOrder(@PathVariable("id") @NotNull UUID id) {
         cancelOrderUseCase.cancelOrder(new OrderId(id));
 
         return ResponseEntity.noContent().build();

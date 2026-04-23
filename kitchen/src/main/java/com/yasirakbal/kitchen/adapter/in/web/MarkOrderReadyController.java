@@ -1,5 +1,6 @@
 package com.yasirakbal.kitchen.adapter.in.web;
 
+import com.yasirakbal.kitchen.application.domain.model.KitchenOrder;
 import com.yasirakbal.kitchen.application.domain.model.KitchenOrderId;
 import com.yasirakbal.kitchen.application.port.in.MarkOrderReadyUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,9 @@ public class MarkOrderReadyController {
     private final MarkOrderReadyUseCase markOrderReadyUseCase;
 
     @PostMapping("api/kitchen/orders/{id}/ready")
-    public ResponseEntity<Void> markReady(@PathVariable UUID id) {
+    public ResponseEntity<Void> markReady(@PathVariable("id") UUID id) {
         markOrderReadyUseCase.markOrderReady(new KitchenOrderId(id));
+
         return ResponseEntity.noContent().build();
     }
 }

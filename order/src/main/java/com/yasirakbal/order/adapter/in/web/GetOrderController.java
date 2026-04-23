@@ -5,7 +5,6 @@ import com.yasirakbal.order.application.port.in.GetOrderUseCase;
 import com.yasirakbal.order.common.annotation.WebAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +24,7 @@ public class GetOrderController {
     private final OrderToGetOrderResultModelMapper orderToGetOrderResultModelMapper;
 
     @GetMapping("api/orders/{id}")
-    public ResponseEntity<GetOrderResultModel> getOrder(@PathVariable @NotNull @Positive UUID orderId) {
+    public ResponseEntity<GetOrderResultModel> getOrder(@PathVariable("id") @NotNull UUID orderId) {
         Order order = getOrderUseCase.getOrder(new OrderId(orderId));
 
         GetOrderResultModel orderDto = orderToGetOrderResultModelMapper.map(order);

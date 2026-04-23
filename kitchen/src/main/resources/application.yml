@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: kitchen
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    listener:
+      auto-startup: true
+      missing-topics-fatal: false
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: true
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: true
+        spring.json.type.mapping: "OrderPlacedIntegrationEvent:com.yasirakbal.shared.events.OrderPlacedIntegrationEvent,OrderCancelledIntegrationEvent:com.yasirakbal.shared.events.OrderCancelledIntegrationEvent,OrderPlacedLineItem:com.yasirakbal.shared.events.OrderPlacedLineItem,KitchenOrderReadyIntegrationEvent:com.yasirakbal.shared.events.KitchenOrderReadyIntegrationEvent"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hexagonal-restaurant
+    username: postgres
+    password: "123456"
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+kitchen:
+  kafka:
+    consumer:
+      group-id: kitchen-group
+    topics:
+      order-placed: order.order.placed
+      order-cancelled: order.order.cancelled
+      kitchen-order-ready: kitchen.order.ready

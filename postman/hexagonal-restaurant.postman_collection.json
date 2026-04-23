@@ -1,0 +1,389 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "hexagonal-restaurant",
+    "description": "End-to-end API checks for the monolith `configuration` app (table + order + kitchen in one JVM).\n\n## Before you run\n1. **Start**: Kafka + Postgres, then `ConfigurationApplication` from the `configuration` module.\n2. **Kafka**: `configuration` uses `application.yml` (`spring.kafka.listener.auto-startup: true` by default). Optional broker address: profile **`kafka`** + `application-kafka.yml` / env `SPRING_KAFKA_BOOTSTRAP_SERVERS`.\n3. **`Place order` (201)** saves **`orderId`** to the environment (Tests). After the kitchen consumer creates the row, **`GET /api/kitchen/orders/by-order/{{orderId}}`** returns **`kitchenOrderId`** (step **3c** Tests also saves it). If you get **404**, wait/retry until Kafka has processed `order.order.placed`.\n4. **Seeded data** (`DataSeeder`): `tableId` = `aaaaaaaa-0000-0000-0000-000000000001`, burger `menuItemId` = `bbbbbbbb-0000-0000-0000-000000000001`.\n5. **Naming**: opening a table sets status **OCCUPIED** (there is no `OPEN`). Closing sets **AVAILABLE** (not `CLOSED`).\n6. **Between requests**: after mutating calls that publish Kafka messages, wait a few seconds before `GET order` if consumers are async.\n\n## Topics (reference)\n- `order.order.placed` → kitchen creates `RECEIVED`\n- `kitchen.order.ready` → order → `READY`\n- `table.order.delivered` → order → `DELIVERED`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Happy path – full flow",
+      "item": [
+        {
+          "name": "1. Open table",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const j = pm.response.json();",
+                  "pm.test('Table OCCUPIED', function () {",
+                  "    pm.expect(j.status).to.eql('OCCUPIED');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}/open",
+            "description": "Garson masayı açar → tablo **OCCUPIED**."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Get table (expect OCCUPIED)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.test('Table OCCUPIED', function () {",
+                  "    pm.expect(j.status).to.eql('OCCUPIED');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "3. Place order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const j = pm.response.json();",
+                  "pm.environment.set('orderId', j.orderId);",
+                  "pm.test('Order PENDING in body', function () {",
+                  "    pm.expect(j.status).to.eql('PENDING');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tableId\": \"{{tableId}}\",\n  \"orderItems\": [\n    {\n      \"menuItemId\": \"{{menuItemId}}\",\n      \"quantity\": 1\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/api/orders",
+            "description": "Masa OCCUPIED / AVAILABLE ise sipariş → **PENDING**, `order.order.placed` yayınlanır (Kafka)."
+          },
+          "response": []
+        },
+        {
+          "name": "3b. Get order (expect PENDING)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.test('Order PENDING', function () {",
+                  "    pm.expect(j.status).to.eql('PENDING');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}",
+            "description": "`orderId` adım 3’teki **Tests** script’i ile environment’a yazılır."
+          },
+          "response": []
+        },
+        {
+          "name": "3c. Get kitchen order by order id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.environment.set('kitchenOrderId', j.kitchenOrderId);",
+                  "pm.test('Kitchen RECEIVED', function () {",
+                  "    pm.expect(j.status).to.eql('RECEIVED');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/kitchen/orders/by-order/{{orderId}}",
+            "description": "Kafka `OrderPlaced` consumer mutfak kaydını oluşturduktan sonra **kitchenOrderId** döner. **404** ise consumer henüz işlememiş veya Kafka kapalıdır; birkaç saniye bekleyip tekrar deneyin."
+          },
+          "response": []
+        },
+        {
+          "name": "4. Kitchen – start preparing",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const j = pm.response.json();",
+                  "pm.test('Kitchen PREPARING', function () {",
+                  "    pm.expect(j.status).to.eql('PREPARING');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/api/kitchen/orders/{{kitchenOrderId}}/start",
+            "description": "`kitchenOrderId` adım **3c** ile environment’a yazılır (veya `GET /api/kitchen/orders/{id}`)."
+          },
+          "response": []
+        },
+        {
+          "name": "5. Kitchen – mark ready",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const j = pm.response.json();",
+                  "pm.test('Kitchen READY', function () {",
+                  "    pm.expect(j.status).to.eql('READY');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/api/kitchen/orders/{{kitchenOrderId}}/ready",
+            "description": "→ **PREPARING** sonrası **READY**, `kitchen.order.ready` yayınlanır."
+          },
+          "response": []
+        },
+        {
+          "name": "6. Get order (expect READY after Kafka)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.test('Order READY (async)', function () {",
+                  "    pm.expect(j.status).to.eql('READY');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}",
+            "description": "Kafka consumer işledikten sonra sipariş **READY** olmalı."
+          },
+          "response": []
+        },
+        {
+          "name": "7. Table – mark order delivered",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const j = pm.response.json();",
+                  "pm.test('Delivered payload', function () {",
+                  "    pm.expect(j.orderId).to.eql(pm.environment.get('orderId'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"{{orderId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/tables/{{tableId}}/deliver",
+            "description": "`table.order.delivered` yayınlanır."
+          },
+          "response": []
+        },
+        {
+          "name": "8. Get order (expect DELIVERED after Kafka)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.test('Order DELIVERED (async)', function () {",
+                  "    pm.expect(j.status).to.eql('DELIVERED');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "9. Close table",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const j = pm.response.json();",
+                  "pm.test('Table AVAILABLE', function () {",
+                  "    pm.expect(j.status).to.eql('AVAILABLE');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}/close",
+            "description": "Masa tekrar **AVAILABLE** olur."
+          },
+          "response": []
+        },
+        {
+          "name": "10. Get table (expect AVAILABLE)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', function () { pm.response.to.have.status(200); });",
+                  "const j = pm.response.json();",
+                  "pm.test('Table AVAILABLE', function () {",
+                  "    pm.expect(j.status).to.eql('AVAILABLE');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}"
+          },
+          "response": []
+        }
+      ],
+      "description": "Sırayı bozmadan çalıştırın. **`orderId`** adım 3’te set edilir. **`kitchenOrderId`** adım **3c** (`GET .../by-order/...`) ile set edilir (önce Kafka consumer’ın çalışması gerekir)."
+    },
+    {
+      "name": "Helpers",
+      "item": [
+        {
+          "name": "Get order (no status assert)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}",
+            "description": "Ham JSON görmek için."
+          },
+          "response": []
+        },
+        {
+          "name": "Get table (no status assert)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tables/{{tableId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Get kitchen order by order id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/kitchen/orders/by-order/{{orderId}}",
+            "description": "404 = henüz mutfak kaydı yok (Kafka consumer bekleniyor)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get kitchen order by kitchen id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/kitchen/orders/{{kitchenOrderId}}",
+            "description": "Mutfak aggregate PK ile detay."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

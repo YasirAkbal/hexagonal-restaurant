@@ -1,5 +1,6 @@
 package com.yasirakbal.kitchen.adapter.in.web;
 
+import com.yasirakbal.kitchen.application.domain.model.KitchenOrder;
 import com.yasirakbal.kitchen.application.domain.model.KitchenOrderId;
 import com.yasirakbal.kitchen.application.port.in.StartPreparingUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,9 @@ public class StartPreparingController {
     private final StartPreparingUseCase startPreparingUseCase;
 
     @PostMapping("api/kitchen/orders/{id}/start")
-    public ResponseEntity<Void> startPreparing(@PathVariable UUID id) {
+    public ResponseEntity<Void> startPreparing(@PathVariable("id") UUID id) {
         startPreparingUseCase.startPreparing(new KitchenOrderId(id));
+
         return ResponseEntity.noContent().build();
     }
 }

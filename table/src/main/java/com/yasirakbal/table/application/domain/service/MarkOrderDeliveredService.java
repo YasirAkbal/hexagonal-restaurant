@@ -4,7 +4,6 @@ import com.yasirakbal.shared.events.TableOrderDeliveredIntegrationEvent;
 import com.yasirakbal.shared.identifier.OrderId;
 import com.yasirakbal.shared.identifier.TableId;
 import com.yasirakbal.table.application.port.in.MarkOrderDeliveredUseCase;
-import com.yasirakbal.table.application.port.out.LoadTablePort;
 import com.yasirakbal.table.application.port.out.PublishTableOrderDeliveredPort;
 import lombok.RequiredArgsConstructor;
 

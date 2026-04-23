@@ -1,0 +1,6 @@
+# Profile `kafka`: optional bootstrap override (e.g. Docker service hostname `kafka`).
+# Example: --spring.profiles.active=kafka
+#          SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+spring:
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}

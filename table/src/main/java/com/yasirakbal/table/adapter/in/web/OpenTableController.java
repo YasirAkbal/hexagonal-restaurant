@@ -1,6 +1,7 @@
 package com.yasirakbal.table.adapter.in.web;
 
 import com.yasirakbal.shared.identifier.TableId;
+import com.yasirakbal.table.application.domain.model.Table;
 import com.yasirakbal.table.application.port.in.OccupyTableUseCase;
 import com.yasirakbal.table.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,11 @@ public class OpenTableController {
     private final OccupyTableUseCase occupyTableUseCase;
 
     @PostMapping("api/tables/{id}/open")
-    public ResponseEntity<Void> openTable(@PathVariable UUID id) {
+    public ResponseEntity<Void> openTable(@PathVariable("id") UUID id) {
         TableId tableId = new TableId(id);
+
         occupyTableUseCase.occupyTable(tableId);
+
         return ResponseEntity.noContent().build();
     }
 }

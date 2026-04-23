@@ -8,6 +8,7 @@ import com.yasirakbal.kitchen.application.port.out.SaveKitchenOrderPort;
 import com.yasirakbal.kitchen.common.annotation.PersistenceAdapter;
 import com.yasirakbal.shared.identifier.OrderId;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,12 +21,14 @@ public class KitchenOrderPersistenceAdapter implements SaveKitchenOrderPort, Loa
     private final KitchenOrderMapper kitchenOrderMapper;
 
     @Override
+    @Transactional
     public void save(KitchenOrder kitchenOrder) {
         KitchenOrderJpaEntity kitchenOrderJpaEntity = kitchenOrderMapper.mapToJpaEntity(kitchenOrder);
         kitchenOrderJpaRepository.save(kitchenOrderJpaEntity);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public KitchenOrder getById(KitchenOrderId kitchenOrderId) {
         KitchenOrderJpaEntity jpaEntity = kitchenOrderJpaRepository.findById(kitchenOrderId.getValue())
                 .orElseThrow(() ->
@@ -37,6 +40,7 @@ public class KitchenOrderPersistenceAdapter implements SaveKitchenOrderPort, Loa
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<KitchenOrder> findByOrderId(OrderId orderId) {
         return kitchenOrderJpaRepository.findByOrderId(orderId.getValue())
                 .map(kitchenOrderMapper::mapToKitchenOrder);

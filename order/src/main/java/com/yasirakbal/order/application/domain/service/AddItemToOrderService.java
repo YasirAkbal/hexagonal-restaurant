@@ -18,7 +18,7 @@ public class AddItemToOrderService implements AddItemToOrderUseCase {
 
 
     @Override
-    public void addItem(AddItemToOrderCommand command) {
+    public Order addItem(AddItemToOrderCommand command) {
         OrderId orderId = command.getOrderId();
         Order order = loadOrderPort.getById(orderId);
 
@@ -30,5 +30,6 @@ public class AddItemToOrderService implements AddItemToOrderUseCase {
         ));
 
         saveOrderPort.saveOrder(order);
+        return order;
     }
 }

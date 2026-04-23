@@ -23,7 +23,7 @@ public class MarkOrderDeliveredController {
 
     @PostMapping("api/tables/{id}/deliver")
     public ResponseEntity<Void> markDelivered(
-            @PathVariable UUID id,
+            @PathVariable("id") UUID id,
             @RequestBody @Valid MarkOrderDeliveredRequest request) {
 
         markOrderDeliveredUseCase.markOrderDelivered(
